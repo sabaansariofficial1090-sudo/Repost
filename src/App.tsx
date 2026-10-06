@@ -1,357 +1,311 @@
 import {
   ArrowRight,
+  Headphones,
   Search,
+  ShieldCheck,
   ShoppingBag,
   Sparkles,
-  ShieldCheck,
   Truck,
-  Headphones,
   Zap,
 } from "lucide-react";
 
+const categories = [
+  {
+    name: "Trending",
+    icon: Sparkles,
+    description: "What's hot right now",
+  },
+  {
+    name: "Electronics",
+    icon: Zap,
+    description: "Smart everyday tech",
+  },
+  {
+    name: "Fashion",
+    icon: Sparkles,
+    description: "Fresh styles & looks",
+  },
+  {
+    name: "Home & Living",
+    icon: ShieldCheck,
+    description: "Upgrade your space",
+  },
+  {
+    name: "Beauty",
+    icon: Sparkles,
+    description: "Everyday essentials",
+  },
+  {
+    name: "Accessories",
+    icon: ShoppingBag,
+    description: "Complete your look",
+  },
+];
+
+const trustItems = [
+  {
+    icon: ShieldCheck,
+    title: "Secure Shopping",
+    description: "A smooth and secure shopping experience.",
+  },
+  {
+    icon: Truck,
+    title: "Fast Delivery",
+    description: "Get your orders delivered to your doorstep.",
+  },
+  {
+    icon: Sparkles,
+    title: "Trending Finds",
+    description: "Discover products worth knowing about.",
+  },
+  {
+    icon: Headphones,
+    title: "Easy Support",
+    description: "We're here when you need assistance.",
+  },
+];
+
 function App() {
-  const categories = [
-    "Trending",
-    "Electronics",
-    "Fashion",
-    "Home & Living",
-    "Beauty",
-    "Accessories",
-  ];
-
-  const products = [
-    {
-      name: "Trending Pick",
-      category: "Featured",
-      price: "₹499",
-    },
-    {
-      name: "Smart Lifestyle",
-      category: "Electronics",
-      price: "₹799",
-    },
-    {
-      name: "Everyday Essential",
-      category: "Lifestyle",
-      price: "₹599",
-    },
-    {
-      name: "Modern Accessory",
-      category: "Accessories",
-      price: "₹399",
-    },
-  ];
-
   return (
-    <div className="site">
+    <div className="site-shell">
+      <nav className="navbar">
+        <a className="brand" href="/">
+          <span className="brand-mark">R</span>
+          <span className="brand-name">Repost</span>
+        </a>
 
-      {/* NAVBAR */}
-
-      <header className="navbar">
-        <div className="logo">
-          <span className="logo-dot" />
-          REPOST
-        </div>
-
-        <nav className="nav-links">
+        <div className="nav-links">
           <a href="#home">Home</a>
           <a href="#categories">Categories</a>
-          <a href="#trending">Trending</a>
-          <a href="#why-us">Why Us</a>
-        </nav>
+          <a href="#products">Products</a>
+          <a href="#why-us">Why Repost</a>
+        </div>
 
         <div className="nav-actions">
           <button className="icon-button" aria-label="Search">
-            <Search size={19} />
+            <Search size={20} />
           </button>
 
           <button className="icon-button" aria-label="Shopping bag">
-            <ShoppingBag size={19} />
+            <ShoppingBag size={20} />
           </button>
+
+          <button className="nav-cta">Shop Now</button>
         </div>
-      </header>
+      </nav>
 
+      <main>
+        <section className="hero" id="home">
+          <video
+            className="hero-video"
+            src="/1791129166337.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
 
-      {/* HERO */}
+          <div className="hero-overlay" />
 
-      <section className="hero" id="home">
+          <div className="hero-grid" />
 
-        <video
-          className="hero-video"
-          src="/hero-video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-        />
-
-        <div className="hero-overlay" />
-
-        <div className="hero-grid" />
-
-        {/* 3D CSS OBJECTS */}
-
-        <div className="orb orb-one" />
-        <div className="orb orb-two" />
-        <div className="orb orb-three" />
-
-        <div className="hero-content">
-
-          <div className="eyebrow">
-            <Sparkles size={15} />
-            TRENDING • CURATED • PREMIUM
-          </div>
-
-          <h1>
-            Discover What's
-            <span> Trending.</span>
-          </h1>
-
-          <p>
-            Explore products people are talking about,
-            carefully curated for your everyday lifestyle.
-          </p>
-
-          <div className="hero-buttons">
-
-            <button className="primary-btn">
-              Shop Now
-              <ArrowRight size={18} />
-            </button>
-
-            <button className="secondary-btn">
-              Explore Collection
-            </button>
-
-          </div>
-
-        </div>
-
-        <div className="hero-bottom">
-          <span>SCROLL TO EXPLORE</span>
-          <div className="scroll-line" />
-        </div>
-
-      </section>
-
-
-      {/* CATEGORIES */}
-
-      <section className="section categories" id="categories">
-
-        <div className="section-heading">
-          <div>
-            <span className="section-label">EXPLORE</span>
-            <h2>Shop by Category</h2>
-          </div>
-
-          <button className="text-button">
-            View all
-            <ArrowRight size={17} />
-          </button>
-        </div>
-
-
-        <div className="category-grid">
-
-          {categories.map((category, index) => (
-            <div
-              className="category-card"
-              key={category}
-              style={{
-                animationDelay: `${index * 80}ms`,
-              }}
-            >
-
-              <div className="category-number">
-                0{index + 1}
-              </div>
-
-              <div className="category-name">
-                {category}
-              </div>
-
-              <ArrowRight className="category-arrow" size={20} />
-
+          <div className="hero-content">
+            <div className="hero-badge">
+              <Sparkles size={15} />
+              <span>Discover something new</span>
             </div>
-          ))}
 
-        </div>
+            <h1>
+              Discover
+              <span>What's Trending.</span>
+            </h1>
 
-      </section>
+            <p>
+              Explore products people are talking about, loving and adding to
+              their everyday lives.
+            </p>
 
+            <div className="hero-buttons">
+              <a className="primary-button" href="#products">
+                Explore Products
+                <ArrowRight size={18} />
+              </a>
 
-      {/* TRENDING PRODUCTS */}
-
-      <section className="section products" id="trending">
-
-        <div className="section-heading">
-
-          <div>
-            <span className="section-label">DISCOVER</span>
-            <h2>Trending Now</h2>
+              <a className="secondary-button" href="#categories">
+                Browse Categories
+              </a>
+            </div>
           </div>
 
-          <button className="text-button">
-            View all
-            <ArrowRight size={17} />
-          </button>
+          <div className="hero-3d-scene" aria-hidden="true">
+            <div className="cube">
+              <div className="cube-face cube-front">R</div>
+              <div className="cube-face cube-back">R</div>
+              <div className="cube-face cube-right">R</div>
+              <div className="cube-face cube-left">R</div>
+              <div className="cube-face cube-top">R</div>
+              <div className="cube-face cube-bottom">R</div>
+            </div>
 
-        </div>
+            <div className="orbit orbit-one" />
+            <div className="orbit orbit-two" />
+          </div>
 
+          <div className="hero-scroll">
+            <span>Scroll to explore</span>
+            <div className="scroll-line" />
+          </div>
+        </section>
 
-        <div className="product-grid">
+        <section className="section categories-section" id="categories">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">EXPLORE</span>
+              <h2>Shop by Category</h2>
+            </div>
 
-          {products.map((product) => (
-            <article className="product-card" key={product.name}>
+            <p>
+              Find something that fits your style, needs and everyday life.
+            </p>
+          </div>
 
-              <div className="product-image">
+          <div className="category-grid">
+            {categories.map((category) => {
+              const Icon = category.icon;
 
-                <div className="product-glow" />
+              return (
+                <a
+                  className="category-card"
+                  href="#products"
+                  key={category.name}
+                >
+                  <div className="category-icon">
+                    <Icon size={23} />
+                  </div>
 
-                <Sparkles size={30} />
+                  <div>
+                    <h3>{category.name}</h3>
+                    <p>{category.description}</p>
+                  </div>
 
-                <span>COMING SOON</span>
+                  <ArrowRight className="category-arrow" size={18} />
+                </a>
+              );
+            })}
+          </div>
+        </section>
 
+        <section className="section products-section" id="products">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">THE COLLECTION</span>
+              <h2>Trending Now</h2>
+            </div>
+
+            <p>
+              Our collection is being curated. New products will appear here
+              as they are added.
+            </p>
+          </div>
+
+          <div className="empty-products">
+            <div className="empty-products-icon">
+              <ShoppingBag size={30} />
+            </div>
+
+            <h3>Our collection is being curated</h3>
+
+            <p>
+              We're preparing a collection of products for you. Check back
+              soon for new arrivals.
+            </p>
+          </div>
+        </section>
+
+        <section className="section trust-section" id="why-us">
+          <div className="section-heading centered">
+            <span className="eyebrow">WHY REPOST</span>
+            <h2>Shopping made simple.</h2>
+            <p>
+              Everything you need for a better, smoother shopping experience.
+            </p>
+          </div>
+
+          <div className="trust-grid">
+            {trustItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <article className="trust-card" key={item.title}>
+                  <div className="trust-icon">
+                    <Icon size={23} />
+                  </div>
+
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              );
+            })}
+
+            <article className="trust-card">
+              <div className="trust-icon">
+                <ShieldCheck size={23} />
               </div>
 
-              <div className="product-info">
-
-                <div>
-                  <small>{product.category}</small>
-                  <h3>{product.name}</h3>
-                </div>
-
-                <strong>{product.price}</strong>
-
-              </div>
-
+              <h3>4 Days Easy Return</h3>
+              <p>
+                Easy returns within our 4-day return window, subject to our
+                return policy.
+              </p>
             </article>
-          ))}
-
-        </div>
-
-      </section>
-
-
-      {/* WHY US */}
-
-      <section className="section trust-section" id="why-us">
-
-        <div className="section-heading centered">
-          <span className="section-label">WHY REPOST</span>
-
-          <h2>
-            Shopping made
-            <span> simple.</span>
-          </h2>
-
-          <p>
-            We focus on discovering useful, interesting and
-            trending products without making your shopping complicated.
-          </p>
-        </div>
-
-
-        <div className="trust-grid">
-
-          <div className="trust-card">
-            <ShieldCheck size={25} />
-            <span>01</span>
-            <h3>Secure Shopping</h3>
-            <p>
-              A simple and secure experience from browsing to checkout.
-            </p>
           </div>
+        </section>
 
-          <div className="trust-card">
-            <Truck size={25} />
-            <span>02</span>
-            <h3>Fast Delivery</h3>
+        <section className="cta-section">
+          <div className="cta-glow" />
+
+          <div className="cta-content">
+            <span className="eyebrow">READY TO EXPLORE?</span>
+
+            <h2>Find your next favourite.</h2>
+
             <p>
-              Get your favourite products delivered conveniently.
+              Discover products selected for modern everyday living.
             </p>
+
+            <a className="primary-button" href="#categories">
+              Start Exploring
+              <ArrowRight size={18} />
+            </a>
           </div>
-
-          <div className="trust-card">
-            <Zap size={25} />
-            <span>03</span>
-            <h3>Trending Finds</h3>
-            <p>
-              Discover products selected around what's trending.
-            </p>
-          </div>
-
-          <div className="trust-card">
-            <Headphones size={25} />
-            <span>04</span>
-            <h3>Easy Support</h3>
-            <p>
-              We're here to help whenever you need us.
-            </p>
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* CTA */}
-
-      <section className="final-cta">
-
-        <div className="cta-glow" />
-
-        <Sparkles size={24} />
-
-        <span>FIND YOUR NEXT FAVOURITE</span>
-
-        <h2>
-          Something worth
-          <br />
-          discovering.
-        </h2>
-
-        <button className="primary-btn">
-          Start Shopping
-          <ArrowRight size={18} />
-        </button>
-
-      </section>
-
-
-      {/* FOOTER */}
+        </section>
+      </main>
 
       <footer className="footer">
-
-        <div className="footer-brand">
-
-          <div className="logo">
-            <span className="logo-dot" />
-            REPOST
-          </div>
+        <div className="footer-main">
+          <a className="brand footer-brand" href="/">
+            <span className="brand-mark">R</span>
+            <span className="brand-name">Repost</span>
+          </a>
 
           <p>
-            Discover what's trending.
+            Discover trending products for modern everyday life.
           </p>
 
+          <div className="footer-links">
+            <a href="#home">Home</a>
+            <a href="#categories">Categories</a>
+            <a href="#products">Products</a>
+            <a href="#why-us">Why Repost</a>
+          </div>
         </div>
 
         <div className="footer-bottom">
-
-          <span>
-            © 2026 Repost. All rights reserved.
-          </span>
-
-          <span>
-            Crafted for modern shopping.
-          </span>
-
+          <span>© {new Date().getFullYear()} Repost. All rights reserved.</span>
+          <span>Made for modern shoppers.</span>
         </div>
-
       </footer>
-
     </div>
   );
 }
