@@ -66,17 +66,65 @@ const trustItems = [
   },
 ];
 
-function AuroraLogo({ splash = false }: { splash?: boolean }) {
+function AuroraMark() {
   return (
-    <div className={splash ? "aurora-splash-logo" : "aurora-logo"}>
+    <svg
+      viewBox="0 0 64 64"
+      aria-hidden="true"
+      focusable="false"
+      className="aurora-mark"
+    >
+      <path
+        d="M14 51 31.5 10 50 51"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M22 35h19"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M13 43c-8 6-5 14 3 13 8-1 11-10 7-16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M42 23c9-4 12 3 8 8-3 4-8 3-10 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="50" cy="19" r="2" fill="currentColor" />
+    </svg>
+  );
+}
+
+function AuroraSplashLogo() {
+  return (
+    <div className="aurora-splash-logo">
       <svg
-        className="aurora-emblem"
+        className="splash-emblem"
         viewBox="0 0 180 180"
         role="img"
         aria-label="Aurora"
       >
         <defs>
-          <linearGradient id="auroraGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient
+            id="auroraGold"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
             <stop offset="0%" stopColor="#8d6420" />
             <stop offset="45%" stopColor="#d8ad58" />
             <stop offset="100%" stopColor="#765018" />
@@ -84,7 +132,7 @@ function AuroraLogo({ splash = false }: { splash?: boolean }) {
         </defs>
 
         <path
-          className="aurora-line"
+          className="splash-draw splash-a"
           d="M47 139 L89 36 L133 139"
           fill="none"
           stroke="url(#auroraGold)"
@@ -94,7 +142,7 @@ function AuroraLogo({ splash = false }: { splash?: boolean }) {
         />
 
         <path
-          className="aurora-line aurora-inner"
+          className="splash-draw splash-cross"
           d="M67 94 H111"
           fill="none"
           stroke="url(#auroraGold)"
@@ -103,7 +151,7 @@ function AuroraLogo({ splash = false }: { splash?: boolean }) {
         />
 
         <path
-          className="aurora-swirl"
+          className="splash-draw splash-swirl"
           d="M43 115 C18 130 29 157 58 151 C83 146 88 119 75 99 C65 84 44 84 36 98"
           fill="none"
           stroke="url(#auroraGold)"
@@ -112,7 +160,7 @@ function AuroraLogo({ splash = false }: { splash?: boolean }) {
         />
 
         <path
-          className="aurora-swirl"
+          className="splash-draw splash-swirl-two"
           d="M121 64 C151 52 162 73 148 91 C139 103 121 103 112 91"
           fill="none"
           stroke="url(#auroraGold)"
@@ -121,7 +169,7 @@ function AuroraLogo({ splash = false }: { splash?: boolean }) {
         />
 
         <circle
-          className="aurora-dot"
+          className="splash-dot"
           cx="145"
           cy="55"
           r="4"
@@ -130,13 +178,17 @@ function AuroraLogo({ splash = false }: { splash?: boolean }) {
       </svg>
 
       <div className="aurora-wordmark">AURORA</div>
+
+      <div className="splash-progress">
+        <span />
+      </div>
     </div>
   );
 }
 
 function AuroraSplash({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
-    const timer = window.setTimeout(onComplete, 2500);
+    const timer = window.setTimeout(onComplete, 2000);
 
     return () => window.clearTimeout(timer);
   }, [onComplete]);
@@ -144,7 +196,7 @@ function AuroraSplash({ onComplete }: { onComplete: () => void }) {
   return (
     <div className="aurora-splash">
       <div className="splash-glow" />
-      <AuroraLogo splash />
+      <AuroraSplashLogo />
     </div>
   );
 }
@@ -160,9 +212,9 @@ function App() {
 
       <div className="site-shell">
         <nav className="navbar">
-          <a className="brand" href="/">
+          <a className="brand" href="#home" aria-label="Aurora home">
             <span className="brand-emblem">
-              <AuroraLogo />
+              <AuroraMark />
             </span>
             <span className="brand-name">AURORA</span>
           </a>
@@ -175,15 +227,25 @@ function App() {
           </div>
 
           <div className="nav-actions">
-            <button className="icon-button" aria-label="Search">
-              <Search size={19} />
+            <button
+              className="icon-button"
+              type="button"
+              aria-label="Search"
+            >
+              <Search size={18} strokeWidth={2} />
             </button>
 
-            <button className="icon-button" aria-label="Shopping bag">
-              <ShoppingBag size={19} />
+            <button
+              className="icon-button"
+              type="button"
+              aria-label="Shopping bag"
+            >
+              <ShoppingBag size={18} strokeWidth={2} />
             </button>
 
-            <button className="nav-cta">Shop Now</button>
+            <a className="nav-cta" href="#products">
+              Shop Now
+            </a>
           </div>
         </nav>
 
@@ -244,7 +306,7 @@ function App() {
               <div className="orbit orbit-two" />
             </div>
 
-            <div className="hero-scroll">
+            <div className="hero-scroll" aria-hidden="true">
               <span>Scroll to explore</span>
               <div className="scroll-line" />
             </div>
@@ -252,11 +314,8 @@ function App() {
 
           <section className="section categories-section" id="categories">
             <div className="section-heading">
-              <div>
-                <span className="eyebrow">EXPLORE</span>
-                <h2>Shop by Category</h2>
-              </div>
-
+              <span className="eyebrow">EXPLORE</span>
+              <h2>Shop by Category</h2>
               <p>
                 Browse products by the things you love and use every day.
               </p>
@@ -273,15 +332,18 @@ function App() {
                     key={category.name}
                   >
                     <div className="category-icon">
-                      <Icon size={22} />
+                      <Icon size={21} />
                     </div>
 
-                    <div>
+                    <div className="category-copy">
                       <h3>{category.name}</h3>
                       <p>{category.description}</p>
                     </div>
 
-                    <ArrowRight className="category-arrow" size={18} />
+                    <ArrowRight
+                      className="category-arrow"
+                      size={18}
+                    />
                   </a>
                 );
               })}
@@ -290,11 +352,8 @@ function App() {
 
           <section className="section products-section" id="products">
             <div className="section-heading">
-              <div>
-                <span className="eyebrow">SHOP SMART</span>
-                <h2>Best Products &amp; Sale</h2>
-              </div>
-
+              <span className="eyebrow">SHOP SMART</span>
+              <h2>Best Products &amp; Sale</h2>
               <p>
                 Discover selected products and offers as they become available.
               </p>
@@ -302,7 +361,7 @@ function App() {
 
             <div className="empty-products">
               <div className="empty-products-icon">
-                <ShoppingBag size={30} />
+                <ShoppingBag size={29} />
               </div>
 
               <h3>Our collection is being curated</h3>
@@ -314,10 +373,9 @@ function App() {
           </section>
 
           <section className="section trust-section" id="why-us">
-            <div className="section-heading centered">
+            <div className="section-heading">
               <span className="eyebrow">WHY AURORA</span>
               <h2>Shopping made simple.</h2>
-
               <p>
                 A clean, convenient shopping experience built around you.
               </p>
@@ -330,7 +388,7 @@ function App() {
                 return (
                   <article className="trust-card" key={item.title}>
                     <div className="trust-icon">
-                      <Icon size={22} />
+                      <Icon size={21} />
                     </div>
 
                     <h3>{item.title}</h3>
@@ -341,22 +399,20 @@ function App() {
 
               <article className="trust-card">
                 <div className="trust-icon">
-                  <ShieldCheck size={22} />
+                  <ShieldCheck size={21} />
                 </div>
 
                 <h3>4 Days Easy Return</h3>
 
                 <p>
-                  Easy returns within our 4-day return window, subject to the
-                  return policy.
+                  Easy returns within our 4-day return window, subject to
+                  the return policy.
                 </p>
               </article>
             </div>
           </section>
 
           <section className="cta-section">
-            <div className="cta-glow" />
-
             <div className="cta-content">
               <span className="eyebrow">EXPLORE AURORA</span>
 
@@ -376,9 +432,9 @@ function App() {
 
         <footer className="footer">
           <div className="footer-main">
-            <a className="brand footer-brand" href="/">
+            <a className="brand footer-brand" href="#home">
               <span className="brand-emblem">
-                <AuroraLogo />
+                <AuroraMark />
               </span>
               <span className="brand-name">AURORA</span>
             </a>
