@@ -1,11 +1,13 @@
 import {
   ArrowRight,
   Headphones,
+  Menu,
   Search,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
   Truck,
+  X,
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -82,6 +84,7 @@ function AuroraMark() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+
       <path
         d="M22 35h19"
         fill="none"
@@ -89,6 +92,7 @@ function AuroraMark() {
         strokeWidth="3"
         strokeLinecap="round"
       />
+
       <path
         d="M13 43c-8 6-5 14 3 13 8-1 11-10 7-16"
         fill="none"
@@ -96,6 +100,7 @@ function AuroraMark() {
         strokeWidth="2"
         strokeLinecap="round"
       />
+
       <path
         d="M42 23c9-4 12 3 8 8-3 4-8 3-10 0"
         fill="none"
@@ -103,6 +108,7 @@ function AuroraMark() {
         strokeWidth="2"
         strokeLinecap="round"
       />
+
       <circle cx="50" cy="19" r="2" fill="currentColor" />
     </svg>
   );
@@ -203,6 +209,7 @@ function AuroraSplash({ onComplete }: { onComplete: () => void }) {
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
@@ -216,6 +223,7 @@ function App() {
             <span className="brand-emblem">
               <AuroraMark />
             </span>
+
             <span className="brand-name">AURORA</span>
           </a>
 
@@ -246,8 +254,110 @@ function App() {
             <a className="nav-cta" href="#products">
               Shop Now
             </a>
+
+            <button
+              className="mobile-menu-button"
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </nav>
+
+        {menuOpen && (
+          <>
+            <div
+              className="mobile-menu-backdrop"
+              onClick={() => setMenuOpen(false)}
+            />
+
+            <aside className="mobile-menu">
+              <div className="mobile-menu-header">
+                <span>Explore Aurora</span>
+
+                <button
+                  type="button"
+                  className="mobile-menu-close"
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="Close menu"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="mobile-menu-links">
+                <a
+                  href="#home"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>Home</span>
+                  <ArrowRight size={17} />
+                </a>
+
+                <a
+                  href="#categories"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>Categories</span>
+                  <ArrowRight size={17} />
+                </a>
+
+                <a
+                  href="#products"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>Best Products & Sale</span>
+                  <ArrowRight size={17} />
+                </a>
+
+                <a
+                  href="#why-us"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>Why Aurora</span>
+                  <ArrowRight size={17} />
+                </a>
+
+                <div className="mobile-menu-divider" />
+
+                <a
+                  href="#account"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>My Account</span>
+                  <ArrowRight size={17} />
+                </a>
+
+                <a
+                  href="#about"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>About Aurora</span>
+                  <ArrowRight size={17} />
+                </a>
+
+                <a
+                  href="#contact"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>Contact Us</span>
+                  <ArrowRight size={17} />
+                </a>
+
+                <a
+                  href="#faq"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>FAQ</span>
+                  <ArrowRight size={17} />
+                </a>
+              </div>
+            </aside>
+          </>
+        )}
 
         <main>
           <section className="hero" id="home">
@@ -312,10 +422,15 @@ function App() {
             </div>
           </section>
 
-          <section className="section categories-section" id="categories">
+          <section
+            className="section categories-section"
+            id="categories"
+          >
             <div className="section-heading">
               <span className="eyebrow">EXPLORE</span>
+
               <h2>Shop by Category</h2>
+
               <p>
                 Browse products by the things you love and use every day.
               </p>
@@ -350,118 +465,19 @@ function App() {
             </div>
           </section>
 
-          <section className="section products-section" id="products">
+          <section
+            className="section products-section"
+            id="products"
+          >
             <div className="section-heading">
               <span className="eyebrow">SHOP SMART</span>
+
               <h2>Best Products &amp; Sale</h2>
+
               <p>
-                Discover selected products and offers as they become available.
+                Discover selected products and offers as they become
+                available.
               </p>
             </div>
 
-            <div className="empty-products">
-              <div className="empty-products-icon">
-                <ShoppingBag size={29} />
-              </div>
-
-              <h3>Our collection is being curated</h3>
-
-              <p>
-                New products will appear here as they are added to Aurora.
-              </p>
-            </div>
-          </section>
-
-          <section className="section trust-section" id="why-us">
-            <div className="section-heading">
-              <span className="eyebrow">WHY AURORA</span>
-              <h2>Shopping made simple.</h2>
-              <p>
-                A clean, convenient shopping experience built around you.
-              </p>
-            </div>
-
-            <div className="trust-grid">
-              {trustItems.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <article className="trust-card" key={item.title}>
-                    <div className="trust-icon">
-                      <Icon size={21} />
-                    </div>
-
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </article>
-                );
-              })}
-
-              <article className="trust-card">
-                <div className="trust-icon">
-                  <ShieldCheck size={21} />
-                </div>
-
-                <h3>4 Days Easy Return</h3>
-
-                <p>
-                  Easy returns within our 4-day return window, subject to
-                  the return policy.
-                </p>
-              </article>
-            </div>
-          </section>
-
-          <section className="cta-section">
-            <div className="cta-content">
-              <span className="eyebrow">EXPLORE AURORA</span>
-
-              <h2>Find something you’ll love.</h2>
-
-              <p>
-                Discover products selected for modern everyday living.
-              </p>
-
-              <a className="primary-button" href="#categories">
-                Start Exploring
-                <ArrowRight size={18} />
-              </a>
-            </div>
-          </section>
-        </main>
-
-        <footer className="footer">
-          <div className="footer-main">
-            <a className="brand footer-brand" href="#home">
-              <span className="brand-emblem">
-                <AuroraMark />
-              </span>
-              <span className="brand-name">AURORA</span>
-            </a>
-
-            <p>
-              A modern destination for products worth discovering.
-            </p>
-
-            <div className="footer-links">
-              <a href="#home">Home</a>
-              <a href="#categories">Categories</a>
-              <a href="#products">Products</a>
-              <a href="#why-us">Why Aurora</a>
-            </div>
-          </div>
-
-          <div className="footer-bottom">
-            <span>
-              © {new Date().getFullYear()} Aurora. All rights reserved.
-            </span>
-
-            <span>Discover. Choose. Enjoy.</span>
-          </div>
-        </footer>
-      </div>
-    </>
-  );
-}
-
-export default App;
+            <
