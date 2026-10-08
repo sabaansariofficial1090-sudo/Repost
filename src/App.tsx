@@ -2,6 +2,8 @@ import {
   ArrowRight,
   Check,
   ChevronDown,
+  Eye,
+  EyeOff,
   Headphones,
   Menu,
   Search,
@@ -733,27 +735,633 @@ function AccountPage() {
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="Your email"
                 autoComplete="email"
+function AccountPage() {
+  const [mode, setMode] = useState<
+    "signin" | "signup" | "forgot" | "reset" | "verify"
+  >("signin");
+
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [user, setUser] = useState<{
+    $id: string;
+    name: string;
+    email: string;
+    emailVerification: boolean;
+  } | null>(null);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const [resetUserId, setResetUserId] = useState("");
+  const [resetSecret, setResetSecret] = useState("");
+
+  const loadCurrentUser = async () => {
+    const { account } = await import("./lib/appwrite");
+    const currentUser = await account.get();
+
+    return {
+      $id: currentUser.$id,
+      name: currentUser.name,
+      email: currentUser.email,
+      emailVerification: currentUser.emailVerification,
+    };
+  };
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        const { account } = await import("./lib/appwrite");
+
+        const hash = window.location.hash;
+
+        if (hash.startsWith("#verify-email")) {
+          const query = hash.split("?")[1] || "";
+          const params = new URLSearchParams(query);
+
+          const userId = params.get("userId");
+          const secret = params.get("secret");
+
+          if (userId && secret) {
+            await account.updateVerification({
+              userId,
+              secret,
+            });
+
+            window.location.hash = "account";
+            setSuccess(true);
+            setMessage("Email verified successfully. You can now sign in.");
+          } else {
+            setSuccess(false);
+            setMessage("The verification link is missing required information.");
+          }
+        }
+
+        if (hash.startsWith("#reset-password")) {
+          const query = hash.split("?")[1] || "";
+          const params = new URLSearchParams(query);
+
+          const userId = params.get("userId");
+          const secret = params.get("secret");
+
+          if (userId && secret) {
+            setResetUserId(userId);
+            setResetSecret(secret);
+            setMode("reset");
+          } else {
+            setSuccess(false);
+            setMessage("The password recovery link is invalid or incomplete.");
+          }
+
+          setLoading(false);
+          return;
+        }
+
+        const currentUser = await loadCurrentUser();
+
+        if (currentUser.emailVerification) {
+          setUser(currentUser);
+        } else {
+          setUser(null);
+          setMode("verify");
+        }
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
+  const handleAuth = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setMessage("");
+    setSuccess(false);
+    setSubmitting(true);
+
+    try {
+      const { account, ID } = await import("./lib/appwrite");
+
+      if (mode === "signup") {
+        if (!name.trim()) {
+          throw new Error("Please enter your name.");
+        }
+
+        await account.create({
+          userId: ID.unique(),
+          email: email.trim(),
+          password,
+          name: name.trim(),
+        });
+
+        await account.createEmailPasswordSession({
+          email: email.trim(),
+          password,
+        });
+
+        await account.createVerification({
+          url: "https://aurora-stor.vercel.app/#verify-email",
+        });
+
+        setMode("verify");
+        setSuccess(true);
+        setMessage(
+          `Verification email sent to ${email.trim()}. Please open your email and verify your address before continuing.`
+        );
+
+        setPassword("");
+      } else if (mode === "signin") {
+        await account.createEmailPasswordSession({
+          email: email.trim(),
+          password,
+        });
+
+        const currentUser = await loadCurrentUser();
+
+        if (!currentUser.emailVerification) {
+          await account.createVerification({
+            url: "https://aurora-stor.vercel.app/#verify-email",
+          });
+
+          setUser(null);
+          setMode("verify");
+          setSuccess(true);
+          setMessage(
+            `Your email is not verified yet. We sent a new verification email to ${currentUser.email}.`
+          );
+        } else {
+          setUser(currentUser);
+          setSuccess(true);
+          setMessage("Welcome back.");
+        }
+
+        setPassword("");
+      } else if (mode === "forgot") {
+        await account.createRecovery({
+          email: email.trim(),
+          url: "https://aurora-stor.vercel.app/#reset-password",
+        });
+
+        setSuccess(true);
+        setMessage(
+          "If an account exists for this email, a password recovery email has been sent."
+        );
+      } else if (mode === "reset") {
+        if (password.length < 8) {
+          throw new Error("Password must be at least 8 characters.");
+        }
+
+        await account.updateRecovery({
+          userId: resetUserId,
+          secret: resetSecret,
+          password,
+        });
+
+        setMode("signin");
+        setPassword("");
+        setSuccess(true);
+        setMessage(
+          "Password changed successfully. You can now sign in with your new password."
+        );
+
+        window.location.hash = "account";
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.";
+
+      setSuccess(false);
+      setMessage(errorMessage);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    setSubmitting(true);
+    setMessage("");
+    setSuccess(false);
+
+    try {
+      const { account } = await import("./lib/appwrite");
+
+      await account.createVerification({
+        url: "https://aurora-stor.vercel.app/#verify-email",
+      });
+
+      setSuccess(true);
+      setMessage("A new verification email has been sent.");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Unable to send verification email.";
+
+      setMessage(errorMessage);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    setSubmitting(true);
+    setMessage("");
+    setSuccess(false);
+
+    try {
+      const { account } = await import("./lib/appwrite");
+
+      await account.deleteSession({
+        sessionId: "current",
+      });
+
+      setUser(null);
+      setName("");
+      setEmail("");
+      setPassword("");
+      setMode("signin");
+
+      setSuccess(true);
+      setMessage("You have been logged out.");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Logout failed. Please try again.";
+
+      setMessage(errorMessage);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <>
+        <PageHero
+          eyebrow="YOUR AURORA"
+          title="My Account"
+          description="Checking your secure Aurora session."
+        />
+
+        <section className="section page-section">
+          <div className="account-preview">
+            <div className="account-icon">
+              <ShoppingBag size={27} />
+            </div>
+
+            <h2>Checking your account...</h2>
+
+            <p>
+              Please wait while Aurora restores your existing session.
+            </p>
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  if (user) {
+    return (
+      <>
+        <PageHero
+          eyebrow="YOUR AURORA"
+          title="Welcome back."
+          description="Your verified Aurora account is active."
+        />
+
+        <section className="section page-section">
+          <div className="account-preview">
+            <div className="account-icon">
+              <Check size={27} />
+            </div>
+
+            <span className="eyebrow">EMAIL VERIFIED</span>
+
+            <h2>{user.name || "Aurora Customer"}</h2>
+
+            <p>{user.email}</p>
+
+            {message && (
+              <div className="auth-message success">
+                {message}
+              </div>
+            )}
+
+            <div className="account-feature-grid">
+              {[
+                "Profile",
+                "My Orders",
+                "Saved Addresses",
+                "Account Settings",
+              ].map((item) => (
+                <div key={item}>
+                  <Check size={16} />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="account-actions">
+              <button
+                className="secondary-light-button"
+                type="button"
+                onClick={handleLogout}
+                disabled={submitting}
+              >
+                {submitting ? "Logging out..." : "Logout"}
+              </button>
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  if (mode === "verify") {
+    return (
+      <>
+        <PageHero
+          eyebrow="VERIFY YOUR EMAIL"
+          title="One more step."
+          description="Please verify your email address before continuing with Aurora."
+        />
+
+        <section className="section page-section">
+          <div className="account-auth-card">
+            <div className="account-icon">
+              <ShieldCheck size={27} />
+            </div>
+
+            <span className="eyebrow">EMAIL VERIFICATION</span>
+
+            <h2>Check your inbox.</h2>
+
+            <p>
+              We sent a verification link to your email address. Open it to
+              verify your account.
+            </p>
+
+            {message && (
+              <div
+                className={`auth-message ${
+                  success ? "success" : ""
+                }`}
+              >
+                {message}
+              </div>
+            )}
+
+            <button
+              className="primary-button auth-submit-button"
+              type="button"
+              onClick={handleResendVerification}
+              disabled={submitting}
+            >
+              {submitting ? "Sending..." : "Resend Verification Email"}
+              {!submitting && <ArrowRight size={18} />}
+            </button>
+
+            <div className="auth-switch">
+              <span>Already verified?</span>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("signin");
+                  setMessage("");
+                  setSuccess(false);
+                }}
+              >
+                Sign In
+              </button>
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  if (mode === "reset") {
+    return (
+      <>
+        <PageHero
+          eyebrow="SECURE RECOVERY"
+          title="Create a new password."
+          description="Choose a new password for your Aurora account."
+        />
+
+        <section className="section page-section">
+          <div className="account-auth-card">
+            <div className="account-icon">
+              <ShieldCheck size={27} />
+            </div>
+
+            <span className="eyebrow">PASSWORD RESET</span>
+
+            <h2>Set your new password.</h2>
+
+            <p>
+              Your recovery link is ready. Enter a new password below.
+            </p>
+
+            <form
+              className="account-auth-form"
+              onSubmit={handleAuth}
+            >
+              <label>
+                New Password
+
+                <div className="password-input-wrap">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(event) =>
+                      setPassword(event.target.value)
+                    }
+                    placeholder="At least 8 characters"
+                    autoComplete="new-password"
+                    minLength={8}
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() =>
+                      setShowPassword(!showPassword)
+                    }
+                    aria-label={
+                      showPassword
+                        ? "Hide password"
+                        : "Show password"
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff size={19} />
+                    ) : (
+                      <Eye size={19} />
+                    )}
+                  </button>
+                </div>
+              </label>
+
+              {message && (
+                <div
+                  className={`auth-message ${
+                    success ? "success" : ""
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
+
+              <button
+                className="primary-button auth-submit-button"
+                type="submit"
+                disabled={submitting}
+              >
+                {submitting ? "Updating..." : "Update Password"}
+                {!submitting && <ArrowRight size={18} />}
+              </button>
+            </form>
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <PageHero
+        eyebrow="YOUR AURORA"
+        title="My Account"
+        description="Create your Aurora account or sign in to continue shopping."
+      />
+
+      <section className="section page-section">
+        <div className="account-auth-card">
+          <div className="account-icon">
+            <ShoppingBag size={27} />
+          </div>
+
+          <span className="eyebrow">
+            {mode === "signin" ? "WELCOME BACK" : "JOIN AURORA"}
+          </span>
+
+          <h2>
+            {mode === "signin"
+              ? "Sign in to your account."
+              : "Create your account."}
+          </h2>
+
+          <p>
+            {mode === "signin"
+              ? "Sign in once and Aurora will keep your session active when you return."
+              : "Create your Aurora account and verify your email to activate it."}
+          </p>
+
+          <form className="account-auth-form" onSubmit={handleAuth}>
+            {mode === "signup" && (
+              <label>
+                Full Name
+
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Your full name"
+                  autoComplete="name"
+                  required
+                />
+              </label>
+            )}
+
+            <label>
+              Email
+
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Your email"
+                autoComplete="email"
                 required
               />
             </label>
 
             <label>
               Password
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="Your password"
-                autoComplete={
-                  mode === "signin" ? "current-password" : "new-password"
-                }
-                minLength={8}
-                required
-              />
+
+              <div className="password-input-wrap">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(event) =>
+                    setPassword(event.target.value)
+                  }
+                  placeholder="Your password"
+                  autoComplete={
+                    mode === "signin"
+                      ? "current-password"
+                      : "new-password"
+                  }
+                  minLength={8}
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() =>
+                    setShowPassword(!showPassword)
+                  }
+                  aria-label={
+                    showPassword
+                      ? "Hide password"
+                      : "Show password"
+                  }
+                >
+                  {showPassword ? (
+                    <EyeOff size={19} />
+                  ) : (
+                    <Eye size={19} />
+                  )}
+                </button>
+              </div>
             </label>
 
+            {mode === "signin" && (
+              <button
+                type="button"
+                className="forgot-password-button"
+                onClick={() => {
+                  setMode("forgot");
+                  setMessage("");
+                  setSuccess(false);
+                }}
+              >
+                Forgot password?
+              </button>
+            )}
+
             {message && (
-              <div className="auth-message">
+              <div
+                className={`auth-message ${
+                  success ? "success" : ""
+                }`}
+              >
                 {message}
               </div>
             )}
@@ -784,18 +1392,25 @@ function AccountPage() {
               type="button"
               onClick={() => {
                 setMessage("");
-                setMode(mode === "signin" ? "signup" : "signin");
+                setSuccess(false);
+                setShowPassword(false);
+                setMode(
+                  mode === "signin" ? "signup" : "signin"
+                );
               }}
             >
-              {mode === "signin" ? "Create Account" : "Sign In"}
+              {mode === "signin"
+                ? "Create Account"
+                : "Sign In"}
             </button>
           </div>
 
           <div className="account-security-note">
             <ShieldCheck size={17} />
+
             <span>
-              Your password is handled by Appwrite authentication and is not
-              displayed in the Aurora admin dashboard.
+              Your password is handled securely by Appwrite and is
+              never displayed in the Aurora admin dashboard.
             </span>
           </div>
         </div>
