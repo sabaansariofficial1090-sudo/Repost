@@ -1,5 +1,7 @@
 import {
   ArrowRight,
+  Check,
+  ChevronDown,
   Headphones,
   Menu,
   Search,
@@ -13,69 +15,52 @@ import {
 import { useEffect, useState } from "react";
 
 const categories = [
-  {
-    name: "Trending",
-    icon: Sparkles,
-    description: "What's popular right now",
-  },
-  {
-    name: "Electronics",
-    icon: Zap,
-    description: "Smart everyday tech",
-  },
-  {
-    name: "Fashion",
-    icon: Sparkles,
-    description: "Fresh styles & looks",
-  },
-  {
-    name: "Home & Living",
-    icon: ShieldCheck,
-    description: "Upgrade your space",
-  },
-  {
-    name: "Beauty",
-    icon: Sparkles,
-    description: "Everyday essentials",
-  },
-  {
-    name: "Accessories",
-    icon: ShoppingBag,
-    description: "Complete your look",
-  },
+  { name: "Trending", icon: Sparkles, description: "What's popular right now" },
+  { name: "Electronics", icon: Zap, description: "Smart everyday tech" },
+  { name: "Fashion", icon: Sparkles, description: "Fresh styles & looks" },
+  { name: "Home & Living", icon: ShieldCheck, description: "Upgrade your space" },
+  { name: "Beauty", icon: Sparkles, description: "Everyday essentials" },
+  { name: "Accessories", icon: ShoppingBag, description: "Complete your look" },
 ];
 
 const trustItems = [
+  { icon: ShieldCheck, title: "Secure Shopping", description: "A smooth and secure shopping experience." },
+  { icon: Truck, title: "Fast Delivery", description: "Get your orders delivered to your doorstep." },
+  { icon: Sparkles, title: "Fresh Finds", description: "Discover products selected for modern shoppers." },
+  { icon: Headphones, title: "Easy Support", description: "We're here when you need assistance." },
+];
+
+const faqs = [
   {
-    icon: ShieldCheck,
-    title: "Secure Shopping",
-    description: "A smooth and secure shopping experience.",
+    question: "How can I place an order?",
+    answer:
+      "Browse a product, open its details and continue to checkout. The complete ordering flow will be connected as the store backend is added.",
   },
   {
-    icon: Truck,
-    title: "Fast Delivery",
-    description: "Get your orders delivered to your doorstep.",
+    question: "Can I track my order?",
+    answer:
+      "Yes. Aurora is being built with an account area where customers will be able to view their orders and tracking information.",
   },
   {
-    icon: Sparkles,
-    title: "Fresh Finds",
-    description: "Discover products selected for modern shoppers.",
+    question: "What is the return window?",
+    answer:
+      "Aurora plans a 4-day easy return window for eligible items. Eligibility can vary by product, so the final return policy should always be checked.",
   },
   {
-    icon: Headphones,
-    title: "Easy Support",
-    description: "We're here when you need assistance.",
+    question: "Is my account information secure?",
+    answer:
+      "Aurora will use Appwrite authentication and permissions for customer accounts. Passwords are handled by the authentication service and are not displayed in the customer or admin dashboard.",
+  },
+  {
+    question: "How can I contact Aurora?",
+    answer:
+      "Use the Contact Us page for support, order questions, return help and general enquiries.",
   },
 ];
 
 function AuroraMark() {
   return (
-    <svg
-      viewBox="0 0 64 64"
-      aria-hidden="true"
-      focusable="false"
-      className="aurora-mark"
-    >
+    <svg viewBox="0 0 64 64" className="aurora-mark">
       <path
         d="M14 51 31.5 10 50 51"
         fill="none"
@@ -96,114 +81,643 @@ function AuroraMark() {
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
-        strokeLinecap="round"
       />
       <path
         d="M42 23c9-4 12 3 8 8-3 4-8 3-10 0"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
-        strokeLinecap="round"
       />
       <circle cx="50" cy="19" r="2" fill="currentColor" />
     </svg>
   );
 }
 
-function AuroraSplashLogo() {
-  return (
-    <div className="aurora-splash-logo">
-      <svg
-        className="splash-emblem"
-        viewBox="0 0 180 180"
-        role="img"
-        aria-label="Aurora"
-      >
-        <defs>
-          <linearGradient
-            id="auroraGold"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#8d6420" />
-            <stop offset="45%" stopColor="#d8ad58" />
-            <stop offset="100%" stopColor="#765018" />
-          </linearGradient>
-        </defs>
-
-        <path
-          className="splash-draw splash-a"
-          d="M47 139 L89 36 L133 139"
-          fill="none"
-          stroke="url(#auroraGold)"
-          strokeWidth="7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        <path
-          className="splash-draw splash-cross"
-          d="M67 94 H111"
-          fill="none"
-          stroke="url(#auroraGold)"
-          strokeWidth="5"
-          strokeLinecap="round"
-        />
-
-        <path
-          className="splash-draw splash-swirl"
-          d="M43 115 C18 130 29 157 58 151 C83 146 88 119 75 99 C65 84 44 84 36 98"
-          fill="none"
-          stroke="url(#auroraGold)"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-
-        <path
-          className="splash-draw splash-swirl-two"
-          d="M121 64 C151 52 162 73 148 91 C139 103 121 103 112 91"
-          fill="none"
-          stroke="url(#auroraGold)"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-
-        <circle
-          className="splash-dot"
-          cx="145"
-          cy="55"
-          r="4"
-          fill="#c99b43"
-        />
-      </svg>
-
-      <div className="aurora-wordmark">AURORA</div>
-
-      <div className="splash-progress">
-        <span />
-      </div>
-    </div>
-  );
-}
-
-function AuroraSplash({
-  onComplete,
-}: {
-  onComplete: () => void;
-}) {
+function AuroraSplash({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     const timer = window.setTimeout(onComplete, 2000);
-
     return () => window.clearTimeout(timer);
   }, [onComplete]);
 
   return (
     <div className="aurora-splash">
       <div className="splash-glow" />
-      <AuroraSplashLogo />
+
+      <div className="aurora-splash-logo">
+        <svg className="splash-emblem" viewBox="0 0 180 180">
+          <defs>
+            <linearGradient id="auroraGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#8d6420" />
+              <stop offset="45%" stopColor="#d8ad58" />
+              <stop offset="100%" stopColor="#765018" />
+            </linearGradient>
+          </defs>
+
+          <path
+            className="splash-draw splash-a"
+            d="M47 139 L89 36 L133 139"
+            fill="none"
+            stroke="url(#auroraGold)"
+            strokeWidth="7"
+            strokeLinecap="round"
+          />
+
+          <path
+            className="splash-draw splash-cross"
+            d="M67 94 H111"
+            fill="none"
+            stroke="url(#auroraGold)"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+
+          <path
+            className="splash-draw splash-swirl"
+            d="M43 115 C18 130 29 157 58 151 C83 146 88 119 75 99 C65 84 44 84 36 98"
+            fill="none"
+            stroke="url(#auroraGold)"
+            strokeWidth="4"
+          />
+
+          <path
+            className="splash-draw splash-swirl-two"
+            d="M121 64 C151 52 162 73 148 91 C139 103 121 103 112 91"
+            fill="none"
+            stroke="url(#auroraGold)"
+            strokeWidth="4"
+          />
+
+          <circle className="splash-dot" cx="145" cy="55" r="4" fill="#c99b43" />
+        </svg>
+
+        <div className="aurora-wordmark">AURORA</div>
+
+        <div className="splash-progress">
+          <span />
+        </div>
+      </div>
     </div>
+  );
+}
+
+function PageHero({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <section className="page-hero">
+      <div className="page-hero-glow" />
+
+      <div className="page-hero-content">
+        <span className="eyebrow">{eyebrow}</span>
+        <h1>{title}</h1>
+        <p>{description}</p>
+      </div>
+    </section>
+  );
+}
+
+function CategoriesPage({ go }: { go: (path: string) => void }) {
+  return (
+    <>
+      <PageHero
+        eyebrow="EXPLORE AURORA"
+        title="Shop by Category"
+        description="Explore Aurora collections and discover products by the way you shop, live and style your everyday."
+      />
+
+      <section className="section page-section">
+        <div className="category-grid">
+          {categories.map((category) => {
+            const Icon = category.icon;
+
+            return (
+              <button
+                className="category-card page-category-card"
+                key={category.name}
+                onClick={() => go("/products")}
+              >
+                <div className="category-icon">
+                  <Icon size={21} />
+                </div>
+
+                <div className="category-copy">
+                  <h3>{category.name}</h3>
+                  <p>{category.description}</p>
+                </div>
+
+                <ArrowRight className="category-arrow" size={18} />
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="info-band">
+        <div>
+          <span className="eyebrow">AURORA COLLECTION</span>
+          <h2>More collections will appear as real products are added.</h2>
+        </div>
+
+        <button className="primary-button" onClick={() => go("/products")}>
+          View Products <ArrowRight size={18} />
+        </button>
+      </section>
+    </>
+  );
+}
+
+function ProductsPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="SHOP SMART"
+        title="Best Products & Sale"
+        description="Your place for Aurora's real product collection, offers and selected finds."
+      />
+
+      <section className="section page-section">
+        <div className="empty-products large-empty">
+          <div className="empty-products-icon">
+            <ShoppingBag size={29} />
+          </div>
+
+          <h3>Our collection is being curated</h3>
+
+          <p>
+            Products will appear here automatically when they are added through
+            the Aurora admin system.
+          </p>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function WhyAuroraPage() {
+  const features = [
+    ["Curated discovery", "We want the store to make finding useful products easier."],
+    ["Simple experience", "From browsing to checkout, the goal is a straightforward mobile journey."],
+    ["Clear information", "Product names, pricing and important purchase details should be presented clearly."],
+    ["Customer first", "Accounts, orders, addresses and support are being built around customer needs."],
+    ["Secure accounts", "Customer authentication will be handled by Appwrite."],
+    ["Built to improve", "Aurora will keep evolving as real products and feedback are added."],
+  ];
+
+  return (
+    <>
+      <PageHero
+        eyebrow="WHY AURORA"
+        title="Shopping made simple."
+        description="Aurora is being designed around a clean, useful and trustworthy shopping experience."
+      />
+
+      <section className="section page-section">
+        <div className="feature-story-grid">
+          {features.map(([title, description], index) => (
+            <article className="feature-story-card" key={title}>
+              <div className="feature-number">
+                0{index + 1}
+              </div>
+
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="dark-info-section">
+        <div className="dark-info-inner">
+          <span className="eyebrow">THE AURORA STANDARD</span>
+          <h2>Discover. Choose. Enjoy.</h2>
+          <p>
+            Every part of Aurora is being built to make online shopping feel
+            more considered, useful and easier to navigate.
+          </p>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function AboutPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="OUR STORY"
+        title="About Aurora"
+        description="Aurora is a modern e-commerce destination being built to bring useful products and a refined shopping experience together."
+      />
+
+      <section className="section page-section">
+        <div className="about-grid">
+          <div className="about-main">
+            <span className="eyebrow">ABOUT THE BRAND</span>
+
+            <h2>A store built with a simple idea.</h2>
+
+            <p>
+              Aurora is designed for people who want to discover products
+              without getting lost in a complicated shopping experience.
+            </p>
+
+            <p>
+              Our focus is clear product presentation, easy navigation,
+              secure customer accounts and a smooth journey from discovery to
+              delivery.
+            </p>
+
+            <p>
+              As the store grows, real products and useful customer features
+              will be added gradually rather than filling the site with
+              placeholders.
+            </p>
+          </div>
+
+          <div className="about-values">
+            {[
+              "Useful products",
+              "Clean design",
+              "Clear information",
+              "Customer care",
+            ].map((value) => (
+              <div className="value-row" key={value}>
+                <Check size={18} />
+                <span>{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function ContactPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="WE'RE HERE TO HELP"
+        title="Contact Us"
+        description="Have a question about an order, a return or Aurora? This page is the place to start."
+      />
+
+      <section className="section page-section">
+        <div className="contact-grid">
+          <div className="contact-info">
+            <span className="eyebrow">GET SUPPORT</span>
+
+            <h2>How can we help?</h2>
+
+            <p>
+              Choose the type of help you need. The live contact and enquiry
+              connection will be added with the customer backend.
+            </p>
+
+            <div className="contact-cards">
+              {[
+                ["Order Support", "Questions about an order, delivery or tracking."],
+                ["Returns & Help", "Need help with an eligible return or product issue?"],
+                ["General Enquiry", "Questions, feedback or business-related enquiries."],
+              ].map(([title, description]) => (
+                <div className="contact-card" key={title}>
+                  <div className="contact-card-icon">
+                    <Headphones size={20} />
+                  </div>
+
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <form
+            className="contact-form"
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <span className="eyebrow">SEND A MESSAGE</span>
+
+            <label>
+              Name
+              <input type="text" placeholder="Your name" />
+            </label>
+
+            <label>
+              Email
+              <input type="email" placeholder="Your email" />
+            </label>
+
+            <label>
+              Message
+              <textarea placeholder="How can we help?" rows={5} />
+            </label>
+
+            <button className="primary-button" type="submit">
+              Send Enquiry <ArrowRight size={18} />
+            </button>
+          </form>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function FAQPage() {
+  const [open, setOpen] = useState<number | null>(0);
+
+  return (
+    <>
+      <PageHero
+        eyebrow="NEED TO KNOW"
+        title="Frequently Asked Questions"
+        description="Quick answers to common questions about shopping, accounts, returns and support at Aurora."
+      />
+
+      <section className="section page-section">
+        <div className="faq-list">
+          {faqs.map((faq, index) => (
+            <div
+              className={`faq-item ${open === index ? "open" : ""}`}
+              key={faq.question}
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  setOpen(open === index ? null : index)
+                }
+              >
+                <span>{faq.question}</span>
+                <ChevronDown size={19} />
+              </button>
+
+              {open === index && <p>{faq.answer}</p>}
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function AccountPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="YOUR AURORA"
+        title="My Account"
+        description="Your personal space for profile details, addresses, orders and account settings."
+      />
+
+      <section className="section page-section">
+        <div className="account-preview">
+          <div className="account-icon">
+            <ShoppingBag size={27} />
+          </div>
+
+          <span className="eyebrow">ACCOUNT ACCESS</span>
+
+          <h2>Sign in or create your account.</h2>
+
+          <p>
+            Appwrite authentication is the next build phase. Once connected,
+            your session will stay available when you return to Aurora.
+          </p>
+
+          <div className="account-actions">
+            <button className="primary-button" type="button">
+              Sign In <ArrowRight size={18} />
+            </button>
+
+            <button className="secondary-light-button" type="button">
+              Create Account
+            </button>
+          </div>
+
+          <div className="account-feature-grid">
+            {[
+              "Profile",
+              "My Orders",
+              "Saved Addresses",
+              "Account Settings",
+            ].map((item) => (
+              <div key={item}>
+                <Check size={16} />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function HomePage({ go }: { go: (path: string) => void }) {
+  return (
+    <>
+      <section className="hero">
+        <video
+          className="hero-video"
+          src="/1791129166337.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+
+        <div className="hero-overlay" />
+        <div className="hero-grid" />
+
+        <div className="hero-content">
+          <div className="hero-badge">
+            <Sparkles size={14} />
+            <span>Curated for modern shoppers</span>
+          </div>
+
+          <h1>
+            Discover
+            <span>Something Better.</span>
+          </h1>
+
+          <p>
+            Explore carefully selected products, standout finds and everyday
+            essentials — all in one place.
+          </p>
+
+          <div className="hero-buttons">
+            <button
+              className="primary-button"
+              onClick={() => go("/products")}
+            >
+              Shop Best Products <ArrowRight size={18} />
+            </button>
+
+            <button
+              className="secondary-button"
+              onClick={() => go("/categories")}
+            >
+              Explore Categories
+            </button>
+          </div>
+        </div>
+
+        <div className="hero-3d-scene">
+          <div className="cube">
+            <div className="cube-face cube-front">A</div>
+            <div className="cube-face cube-back">A</div>
+            <div className="cube-face cube-right">A</div>
+            <div className="cube-face cube-left">A</div>
+            <div className="cube-face cube-top">A</div>
+            <div className="cube-face cube-bottom">A</div>
+          </div>
+
+          <div className="orbit orbit-one" />
+          <div className="orbit orbit-two" />
+        </div>
+      </section>
+
+      <section className="section categories-section">
+        <div className="section-heading">
+          <span className="eyebrow">EXPLORE</span>
+          <h2>Shop by Category</h2>
+          <p>
+            Browse products by the things you love and use every day.
+          </p>
+        </div>
+
+        <div className="category-grid">
+          {categories.map((category) => {
+            const Icon = category.icon;
+
+            return (
+              <button
+                className="category-card"
+                onClick={() => go("/categories")}
+                key={category.name}
+              >
+                <div className="category-icon">
+                  <Icon size={21} />
+                </div>
+
+                <div className="category-copy">
+                  <h3>{category.name}</h3>
+                  <p>{category.description}</p>
+                </div>
+
+                <ArrowRight
+                  className="category-arrow"
+                  size={18}
+                />
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="section products-section">
+        <div className="section-heading">
+          <span className="eyebrow">SHOP SMART</span>
+          <h2>Best Products &amp; Sale</h2>
+          <p>
+            Discover selected products and offers as they become available.
+          </p>
+        </div>
+
+        <div className="empty-products">
+          <div className="empty-products-icon">
+            <ShoppingBag size={29} />
+          </div>
+
+          <h3>Our collection is being curated</h3>
+
+          <p>
+            New products will appear here as they are added to Aurora.
+          </p>
+        </div>
+
+        <button
+          className="text-link-button"
+          onClick={() => go("/products")}
+        >
+          Open Best Products &amp; Sale <ArrowRight size={16} />
+        </button>
+      </section>
+
+      <section className="section trust-section">
+        <div className="section-heading">
+          <span className="eyebrow">WHY AURORA</span>
+          <h2>Shopping made simple.</h2>
+          <p>
+            A clean, convenient shopping experience built around you.
+          </p>
+        </div>
+
+        <div className="trust-grid">
+          {trustItems.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <article className="trust-card" key={item.title}>
+                <div className="trust-icon">
+                  <Icon size={21} />
+                </div>
+
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            );
+          })}
+
+          <article className="trust-card">
+            <div className="trust-icon">
+              <ShieldCheck size={21} />
+            </div>
+
+            <h3>4 Days Easy Return</h3>
+            <p>
+              Easy returns within our 4-day return window, subject to the
+              return policy.
+            </p>
+          </article>
+        </div>
+
+        <button
+          className="text-link-button"
+          onClick={() => go("/why-aurora")}
+        >
+          Discover Why Aurora <ArrowRight size={16} />
+        </button>
+      </section>
+
+      <section className="cta-section">
+        <div className="cta-content">
+          <span className="eyebrow">EXPLORE AURORA</span>
+
+          <h2>Find something you'll love.</h2>
+
+          <p>
+            Discover products selected for modern everyday living.
+          </p>
+
+          <button
+            className="primary-button"
+            onClick={() => go("/categories")}
+          >
+            Start Exploring <ArrowRight size={18} />
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -211,9 +725,63 @@ function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const closeMenu = () => {
+  const [route, setRoute] = useState(
+    window.location.hash.replace("#", "") || "home"
+  );
+
+  useEffect(() => {
+    const onHashChange = () => {
+      setRoute(
+        window.location.hash.replace("#", "") || "home"
+      );
+
+      window.scrollTo({
+        top: 0,
+        behavior: "instant",
+      });
+    };
+
+    window.addEventListener("hashchange", onHashChange);
+
+    return () =>
+      window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  const go = (path: string) => {
+    const cleanPath =
+      path.replace(/^#\/?/, "").replace(/^\//, "") || "home";
+
     setMenuOpen(false);
+
+    if (route === cleanPath) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
+
+    window.location.hash = cleanPath;
   };
+
+  const page =
+    route === "categories" ? (
+      <CategoriesPage go={go} />
+    ) : route === "products" ? (
+      <ProductsPage />
+    ) : route === "why-aurora" ? (
+      <WhyAuroraPage />
+    ) : route === "account" ? (
+      <AccountPage />
+    ) : route === "about" ? (
+      <AboutPage />
+    ) : route === "contact" ? (
+      <ContactPage />
+    ) : route === "faq" ? (
+      <FAQPage />
+    ) : (
+      <HomePage go={go} />
+    );
 
   return (
     <>
@@ -225,66 +793,51 @@ function App() {
 
       <div className="site-shell">
         <nav className="navbar">
-          <a
-            className="brand"
-            href="#home"
-            aria-label="Aurora home"
-            onClick={closeMenu}
+          <button
+            className="brand brand-button"
+            onClick={() => go("/home")}
           >
             <span className="brand-emblem">
               <AuroraMark />
             </span>
 
             <span className="brand-name">AURORA</span>
-          </a>
+          </button>
 
           <div className="nav-links">
-            <a href="#home">Home</a>
-            <a href="#categories">Categories</a>
-            <a href="#products">Products</a>
-            <a href="#why-us">Why Aurora</a>
+            <button onClick={() => go("/home")}>Home</button>
+            <button onClick={() => go("/categories")}>
+              Categories
+            </button>
+            <button onClick={() => go("/products")}>
+              Products
+            </button>
+            <button onClick={() => go("/why-aurora")}>
+              Why Aurora
+            </button>
           </div>
 
           <div className="nav-actions">
-            <button
-              className="icon-button"
-              type="button"
-              aria-label="Search"
-            >
-              <Search size={18} strokeWidth={2} />
+            <button className="icon-button">
+              <Search size={18} />
+            </button>
+
+            <button className="icon-button">
+              <ShoppingBag size={18} />
             </button>
 
             <button
-              className="icon-button"
-              type="button"
-              aria-label="Shopping bag"
-            >
-              <ShoppingBag size={18} strokeWidth={2} />
-            </button>
-
-            <a
               className="nav-cta"
-              href="#products"
+              onClick={() => go("/products")}
             >
               Shop Now
-            </a>
+            </button>
 
             <button
               className="mobile-menu-button"
-              type="button"
-              aria-label={
-                menuOpen ? "Close menu" : "Open menu"
-              }
-              aria-expanded={menuOpen}
-              onClick={() =>
-                setMenuOpen((open) => !open)
-              }
+              onClick={() => setMenuOpen(!menuOpen)}
             >
-              {menuOpen ? (
-                <X size={20} />
-              ) : (
-                <Menu size={20} />
-              )}
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </nav>
@@ -293,7 +846,7 @@ function App() {
           <>
             <div
               className="mobile-menu-backdrop"
-              onClick={closeMenu}
+              onClick={() => setMenuOpen(false)}
             />
 
             <aside className="mobile-menu">
@@ -301,388 +854,82 @@ function App() {
                 <span>Explore Aurora</span>
 
                 <button
-                  type="button"
                   className="mobile-menu-close"
-                  onClick={closeMenu}
-                  aria-label="Close menu"
+                  onClick={() => setMenuOpen(false)}
                 >
                   <X size={20} />
                 </button>
               </div>
 
               <div className="mobile-menu-links">
-                <a
-                  href="#home"
-                  onClick={closeMenu}
-                >
-                  <span>Home</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <a
-                  href="#categories"
-                  onClick={closeMenu}
-                >
-                  <span>Categories</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <a
-                  href="#products"
-                  onClick={closeMenu}
-                >
-                  <span>Best Products &amp; Sale</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <a
-                  href="#why-us"
-                  onClick={closeMenu}
-                >
-                  <span>Why Aurora</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <div className="mobile-menu-divider" />
-
-                <a
-                  href="#account"
-                  onClick={closeMenu}
-                >
-                  <span>My Account</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <a
-                  href="#about"
-                  onClick={closeMenu}
-                >
-                  <span>About Aurora</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <a
-                  href="#contact"
-                  onClick={closeMenu}
-                >
-                  <span>Contact Us</span>
-                  <ArrowRight size={17} />
-                </a>
-
-                <a
-                  href="#faq"
-                  onClick={closeMenu}
-                >
-                  <span>FAQ</span>
-                  <ArrowRight size={17} />
-                </a>
+                {[
+                  ["Home", "/home"],
+                  ["Categories", "/categories"],
+                  ["Best Products & Sale", "/products"],
+                  ["Why Aurora", "/why-aurora"],
+                  ["My Account", "/account"],
+                  ["About Aurora", "/about"],
+                  ["Contact Us", "/contact"],
+                  ["FAQ", "/faq"],
+                ].map(([label, path]) => (
+                  <button
+                    className="mobile-menu-link"
+                    key={path}
+                    onClick={() => go(path)}
+                  >
+                    <span>{label}</span>
+                    <ArrowRight size={17} />
+                  </button>
+                ))}
               </div>
             </aside>
           </>
         )}
 
-        <main>
-          <section
-            className="hero"
-            id="home"
-          >
-            <video
-              className="hero-video"
-              src="/1791129166337.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-            />
-
-            <div className="hero-overlay" />
-            <div className="hero-grid" />
-
-            <div className="hero-content">
-              <div className="hero-badge">
-                <Sparkles size={14} />
-                <span>
-                  Curated for modern shoppers
-                </span>
-              </div>
-
-              <h1>
-                Discover
-                <span>Something Better.</span>
-              </h1>
-
-              <p>
-                Explore carefully selected products,
-                standout finds and everyday essentials —
-                all in one place.
-              </p>
-
-              <div className="hero-buttons">
-                <a
-                  className="primary-button"
-                  href="#products"
-                >
-                  Shop Best Products
-                  <ArrowRight size={18} />
-                </a>
-
-                <a
-                  className="secondary-button"
-                  href="#categories"
-                >
-                  Explore Categories
-                </a>
-              </div>
-            </div>
-
-            <div
-              className="hero-3d-scene"
-              aria-hidden="true"
-            >
-              <div className="cube">
-                <div className="cube-face cube-front">
-                  A
-                </div>
-                <div className="cube-face cube-back">
-                  A
-                </div>
-                <div className="cube-face cube-right">
-                  A
-                </div>
-                <div className="cube-face cube-left">
-                  A
-                </div>
-                <div className="cube-face cube-top">
-                  A
-                </div>
-                <div className="cube-face cube-bottom">
-                  A
-                </div>
-              </div>
-
-              <div className="orbit orbit-one" />
-              <div className="orbit orbit-two" />
-            </div>
-
-            <div
-              className="hero-scroll"
-              aria-hidden="true"
-            >
-              <span>Scroll to explore</span>
-              <div className="scroll-line" />
-            </div>
-          </section>
-
-          <section
-            className="section categories-section"
-            id="categories"
-          >
-            <div className="section-heading">
-              <span className="eyebrow">
-                EXPLORE
-              </span>
-
-              <h2>Shop by Category</h2>
-
-              <p>
-                Browse products by the things you love
-                and use every day.
-              </p>
-            </div>
-
-            <div className="category-grid">
-              {categories.map((category) => {
-                const Icon = category.icon;
-
-                return (
-                  <a
-                    className="category-card"
-                    href="#products"
-                    key={category.name}
-                  >
-                    <div className="category-icon">
-                      <Icon size={21} />
-                    </div>
-
-                    <div className="category-copy">
-                      <h3>{category.name}</h3>
-                      <p>
-                        {category.description}
-                      </p>
-                    </div>
-
-                    <ArrowRight
-                      className="category-arrow"
-                      size={18}
-                    />
-                  </a>
-                );
-              })}
-            </div>
-          </section>
-
-          <section
-            className="section products-section"
-            id="products"
-          >
-            <div className="section-heading">
-              <span className="eyebrow">
-                SHOP SMART
-              </span>
-
-              <h2>
-                Best Products &amp; Sale
-              </h2>
-
-              <p>
-                Discover selected products and offers
-                as they become available.
-              </p>
-            </div>
-
-            <div className="empty-products">
-              <div className="empty-products-icon">
-                <ShoppingBag size={29} />
-              </div>
-
-              <h3>
-                Our collection is being curated
-              </h3>
-
-              <p>
-                New products will appear here as they
-                are added to Aurora.
-              </p>
-            </div>
-          </section>
-
-          <section
-            className="section trust-section"
-            id="why-us"
-          >
-            <div className="section-heading">
-              <span className="eyebrow">
-                WHY AURORA
-              </span>
-
-              <h2>
-                Shopping made simple.
-              </h2>
-
-              <p>
-                A clean, convenient shopping
-                experience built around you.
-              </p>
-            </div>
-
-            <div className="trust-grid">
-              {trustItems.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <article
-                    className="trust-card"
-                    key={item.title}
-                  >
-                    <div className="trust-icon">
-                      <Icon size={21} />
-                    </div>
-
-                    <h3>{item.title}</h3>
-
-                    <p>
-                      {item.description}
-                    </p>
-                  </article>
-                );
-              })}
-
-              <article className="trust-card">
-                <div className="trust-icon">
-                  <ShieldCheck size={21} />
-                </div>
-
-                <h3>
-                  4 Days Easy Return
-                </h3>
-
-                <p>
-                  Easy returns within our 4-day
-                  return window, subject to the
-                  return policy.
-                </p>
-              </article>
-            </div>
-          </section>
-
-          <section className="cta-section">
-            <div className="cta-content">
-              <span className="eyebrow">
-                EXPLORE AURORA
-              </span>
-
-              <h2>
-                Find something you’ll love.
-              </h2>
-
-              <p>
-                Discover products selected for modern
-                everyday living.
-              </p>
-
-              <a
-                className="primary-button"
-                href="#categories"
-              >
-                Start Exploring
-                <ArrowRight size={18} />
-              </a>
-            </div>
-          </section>
-        </main>
+        <main>{page}</main>
 
         <footer className="footer">
           <div className="footer-main">
-            <a
-              className="brand footer-brand"
-              href="#home"
+            <button
+              className="brand brand-button footer-brand"
+              onClick={() => go("/home")}
             >
               <span className="brand-emblem">
                 <AuroraMark />
               </span>
 
-              <span className="brand-name">
-                AURORA
-              </span>
-            </a>
+              <span className="brand-name">AURORA</span>
+            </button>
 
             <p>
-              A modern destination for products worth
-              discovering.
+              A modern destination for products worth discovering.
             </p>
 
             <div className="footer-links">
-              <a href="#home">Home</a>
-              <a href="#categories">
+              <button onClick={() => go("/home")}>Home</button>
+              <button onClick={() => go("/categories")}>
                 Categories
-              </a>
-              <a href="#products">Products</a>
-              <a href="#why-us">
+              </button>
+              <button onClick={() => go("/products")}>
+                Products
+              </button>
+              <button onClick={() => go("/why-aurora")}>
                 Why Aurora
-              </a>
+              </button>
+              <button onClick={() => go("/about")}>About</button>
+              <button onClick={() => go("/contact")}>
+                Contact
+              </button>
+              <button onClick={() => go("/faq")}>FAQ</button>
             </div>
           </div>
 
           <div className="footer-bottom">
             <span>
-              © {new Date().getFullYear()} Aurora.
-              All rights reserved.
+              © {new Date().getFullYear()} Aurora. All rights reserved.
             </span>
 
-            <span>
-              Discover. Choose. Enjoy.
-            </span>
+            <span>Discover. Choose. Enjoy.</span>
           </div>
         </footer>
       </div>
