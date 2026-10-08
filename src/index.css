@@ -2213,3 +2213,112 @@ a {
     min-height: 48px;
   }
 }
+/* =========================================
+   AURORA AUTH — PASSWORD CONTROLS
+========================================= */
+
+.password-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrap input {
+  padding-right: 52px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #8d6420;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.password-toggle:hover {
+  background: #f7efdf;
+  color: #684918;
+}
+
+.password-toggle:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.forgot-password-button {
+  align-self: flex-end;
+  margin-top: -7px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8d6420;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.forgot-password-button:hover {
+  color: #684918;
+  text-decoration: underline;
+}
+
+/* Verification / recovery screens */
+
+.auth-verification-icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  background: #f5ead7;
+  color: var(--gold-dark);
+}
+
+.auth-secondary-action {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 10px;
+  border: 1px solid rgba(120, 90, 40, 0.18);
+  border-radius: 999px;
+  background: #fffdf8;
+  color: #624819;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.auth-secondary-action:hover {
+  background: #faf3e5;
+  border-color: rgba(168, 121, 43, 0.35);
+  transform: translateY(-1px);
+}
+
+.auth-secondary-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+  .password-toggle {
+    right: 7px;
+  }
+
+  .forgot-password-button {
+    font-size: 11px;
+  }
+}
