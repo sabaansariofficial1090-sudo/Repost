@@ -469,57 +469,341 @@ function FAQPage() {
 }
 
 function AccountPage() {
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [user, setUser] = useState<{
+    $id: string;
+    name: string;
+    email: string;
+  } | null>(null);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const { account } = await import("./lib/appwrite");
+        const currentUser = await account.get();
+
+        setUser({
+          $id: currentUser.$id,
+          name: currentUser.name,
+          email: currentUser.email,
+        });
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  const handleAuth = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setMessage("");
+    setSubmitting(true);
+
+    try {
+      const { account, ID } = await import("./lib/appwrite");
+
+      if (mode === "signup") {
+        if (!name.trim()) {
+          throw new Error("Please enter your name.");
+        }
+
+        await account.create({
+          userId: ID.unique(),
+          email: email.trim(),
+          password,
+          name: name.trim(),
+        });
+
+        await account.createEmailPasswordSession({
+          email: email.trim(),
+          password,
+        });
+
+        const currentUser = await account.get();
+
+        setUser({
+          $id: currentUser.$id,
+          name: currentUser.name,
+          email: currentUser.email,
+        });
+
+        setPassword("");
+        setMessage("Account created successfully.");
+      } else {
+        await account.createEmailPasswordSession({
+          email: email.trim(),
+          password,
+        });
+
+        const currentUser = await account.get();
+
+        setUser({
+          $id: currentUser.$id,
+          name: currentUser.name,
+          email: currentUser.email,
+        });
+
+        setPassword("");
+        setMessage("Welcome back.");
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.";
+
+      setMessage(errorMessage);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    setSubmitting(true);
+    setMessage("");
+
+    try {
+      const { account } = await import("./lib/appwrite");
+
+      await account.deleteSession({
+        sessionId: "current",
+      });
+
+      setUser(null);
+      setName("");
+      setEmail("");
+      setPassword("");
+      setMessage("You have been logged out.");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Logout failed. Please try again.";
+
+      setMessage(errorMessage);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <>
+        <PageHero
+          eyebrow="YOUR AURORA"
+          title="My Account"
+          description="Your personal space for profile details, addresses, orders and account settings."
+        />
+
+        <section className="section page-section">
+          <div className="account-preview">
+            <div className="account-icon">
+              <ShoppingBag size={27} />
+            </div>
+
+            <h2>Checking your account...</h2>
+
+            <p>
+              Please wait while Aurora restores your existing session.
+            </p>
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  if (user) {
+    return (
+      <>
+        <PageHero
+          eyebrow="YOUR AURORA"
+          title="Welcome back."
+          description="Your Aurora account is active and your session will stay available when you return."
+        />
+
+        <section className="section page-section">
+          <div className="account-preview">
+            <div className="account-icon">
+              <Check size={27} />
+            </div>
+
+            <span className="eyebrow">SIGNED IN</span>
+
+            <h2>{user.name || "Aurora Customer"}</h2>
+
+            <p>{user.email}</p>
+
+            {message && (
+              <div className="auth-message success">
+                {message}
+              </div>
+            )}
+
+            <div className="account-feature-grid">
+              {[
+                "Profile",
+                "My Orders",
+                "Saved Addresses",
+                "Account Settings",
+              ].map((item) => (
+                <div key={item}>
+                  <Check size={16} />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="account-actions">
+              <button
+                className="secondary-light-button"
+                type="button"
+                onClick={handleLogout}
+                disabled={submitting}
+              >
+                {submitting ? "Logging out..." : "Logout"}
+              </button>
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
+
   return (
     <>
       <PageHero
         eyebrow="YOUR AURORA"
         title="My Account"
-        description="Your personal space for profile details, addresses, orders and account settings."
+        description="Create your Aurora account or sign in to continue shopping."
       />
 
       <section className="section page-section">
-        <div className="account-preview">
+        <div className="account-auth-card">
           <div className="account-icon">
             <ShoppingBag size={27} />
           </div>
 
-          <span className="eyebrow">ACCOUNT ACCESS</span>
+          <span className="eyebrow">
+            {mode === "signin" ? "WELCOME BACK" : "JOIN AURORA"}
+          </span>
 
-          <h2>Sign in or create your account.</h2>
+          <h2>
+            {mode === "signin"
+              ? "Sign in to your account."
+              : "Create your account."}
+          </h2>
 
           <p>
-            Appwrite authentication is the next build phase. Once connected,
-            your session will stay available when you return to Aurora.
+            {mode === "signin"
+              ? "Sign in once and Aurora will keep your session active when you return."
+              : "Create your Aurora account and stay signed in on future visits."}
           </p>
 
-          <div className="account-actions">
-            <button className="primary-button" type="button">
-              Sign In <ArrowRight size={18} />
-            </button>
+          <form className="account-auth-form" onSubmit={handleAuth}>
+            {mode === "signup" && (
+              <label>
+                Full Name
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Your full name"
+                  autoComplete="name"
+                  required
+                />
+              </label>
+            )}
 
-            <button className="secondary-light-button" type="button">
-              Create Account
+            <label>
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Your email"
+                autoComplete="email"
+                required
+              />
+            </label>
+
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Your password"
+                autoComplete={
+                  mode === "signin" ? "current-password" : "new-password"
+                }
+                minLength={8}
+                required
+              />
+            </label>
+
+            {message && (
+              <div className="auth-message">
+                {message}
+              </div>
+            )}
+
+            <button
+              className="primary-button auth-submit-button"
+              type="submit"
+              disabled={submitting}
+            >
+              {submitting
+                ? "Please wait..."
+                : mode === "signin"
+                  ? "Sign In"
+                  : "Create Account"}
+
+              {!submitting && <ArrowRight size={18} />}
+            </button>
+          </form>
+
+          <div className="auth-switch">
+            <span>
+              {mode === "signin"
+                ? "Don't have an account?"
+                : "Already have an account?"}
+            </span>
+
+            <button
+              type="button"
+              onClick={() => {
+                setMessage("");
+                setMode(mode === "signin" ? "signup" : "signin");
+              }}
+            >
+              {mode === "signin" ? "Create Account" : "Sign In"}
             </button>
           </div>
 
-          <div className="account-feature-grid">
-            {[
-              "Profile",
-              "My Orders",
-              "Saved Addresses",
-              "Account Settings",
-            ].map((item) => (
-              <div key={item}>
-                <Check size={16} />
-                <span>{item}</span>
-              </div>
-            ))}
+          <div className="account-security-note">
+            <ShieldCheck size={17} />
+            <span>
+              Your password is handled by Appwrite authentication and is not
+              displayed in the Aurora admin dashboard.
+            </span>
           </div>
         </div>
       </section>
     </>
   );
 }
+
 
 function HomePage({ go }: { go: (path: string) => void }) {
   return (
