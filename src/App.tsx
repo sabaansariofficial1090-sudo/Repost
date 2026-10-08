@@ -2,9 +2,9 @@ import {
   ArrowRight,
   Check,
   ChevronDown,
+  Headphones,
   Eye,
   EyeOff,
-  Headphones,
   Menu,
   Search,
   ShieldCheck,
@@ -17,19 +17,59 @@ import {
 import { useEffect, useState } from "react";
 
 const categories = [
-  { name: "Trending", icon: Sparkles, description: "What's popular right now" },
-  { name: "Electronics", icon: Zap, description: "Smart everyday tech" },
-  { name: "Fashion", icon: Sparkles, description: "Fresh styles & looks" },
-  { name: "Home & Living", icon: ShieldCheck, description: "Upgrade your space" },
-  { name: "Beauty", icon: Sparkles, description: "Everyday essentials" },
-  { name: "Accessories", icon: ShoppingBag, description: "Complete your look" },
+  {
+    name: "Trending",
+    icon: Sparkles,
+    description: "What's popular right now",
+  },
+  {
+    name: "Electronics",
+    icon: Zap,
+    description: "Smart everyday tech",
+  },
+  {
+    name: "Fashion",
+    icon: Sparkles,
+    description: "Fresh styles & looks",
+  },
+  {
+    name: "Home & Living",
+    icon: ShieldCheck,
+    description: "Upgrade your space",
+  },
+  {
+    name: "Beauty",
+    icon: Sparkles,
+    description: "Everyday essentials",
+  },
+  {
+    name: "Accessories",
+    icon: ShoppingBag,
+    description: "Complete your look",
+  },
 ];
 
 const trustItems = [
-  { icon: ShieldCheck, title: "Secure Shopping", description: "A smooth and secure shopping experience." },
-  { icon: Truck, title: "Fast Delivery", description: "Get your orders delivered to your doorstep." },
-  { icon: Sparkles, title: "Fresh Finds", description: "Discover products selected for modern shoppers." },
-  { icon: Headphones, title: "Easy Support", description: "We're here when you need assistance." },
+  {
+    icon: ShieldCheck,
+    title: "Secure Shopping",
+    description: "A smooth and secure shopping experience.",
+  },
+  {
+    icon: Truck,
+    title: "Fast Delivery",
+    description: "Get your orders delivered to your doorstep.",
+  },
+  {
+    icon: Sparkles,
+    title: "Fresh Finds",
+    description: "Discover products selected for modern shoppers.",
+  },
+  {
+    icon: Headphones,
+    title: "Easy Support",
+    description: "We're here when you need assistance.",
+  },
 ];
 
 const faqs = [
@@ -51,7 +91,7 @@ const faqs = [
   {
     question: "Is my account information secure?",
     answer:
-      "Aurora will use Appwrite authentication and permissions for customer accounts. Passwords are handled by the authentication service and are not displayed in the customer or admin dashboard.",
+      "Aurora uses Appwrite authentication for customer accounts. Passwords are handled by the authentication service and are not displayed in the customer or admin dashboard.",
   },
   {
     question: "How can I contact Aurora?",
@@ -71,6 +111,7 @@ function AuroraMark() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+
       <path
         d="M22 35h19"
         fill="none"
@@ -78,26 +119,34 @@ function AuroraMark() {
         strokeWidth="3"
         strokeLinecap="round"
       />
+
       <path
         d="M13 43c-8 6-5 14 3 13 8-1 11-10 7-16"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
       />
+
       <path
         d="M42 23c9-4 12 3 8 8-3 4-8 3-10 0"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
       />
+
       <circle cx="50" cy="19" r="2" fill="currentColor" />
     </svg>
   );
 }
 
-function AuroraSplash({ onComplete }: { onComplete: () => void }) {
+function AuroraSplash({
+  onComplete,
+}: {
+  onComplete: () => void;
+}) {
   useEffect(() => {
     const timer = window.setTimeout(onComplete, 2000);
+
     return () => window.clearTimeout(timer);
   }, [onComplete]);
 
@@ -108,7 +157,13 @@ function AuroraSplash({ onComplete }: { onComplete: () => void }) {
       <div className="aurora-splash-logo">
         <svg className="splash-emblem" viewBox="0 0 180 180">
           <defs>
-            <linearGradient id="auroraGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient
+              id="auroraGold"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="#8d6420" />
               <stop offset="45%" stopColor="#d8ad58" />
               <stop offset="100%" stopColor="#765018" />
@@ -149,7 +204,13 @@ function AuroraSplash({ onComplete }: { onComplete: () => void }) {
             strokeWidth="4"
           />
 
-          <circle className="splash-dot" cx="145" cy="55" r="4" fill="#c99b43" />
+          <circle
+            className="splash-dot"
+            cx="145"
+            cy="55"
+            r="4"
+            fill="#c99b43"
+          />
         </svg>
 
         <div className="aurora-wordmark">AURORA</div>
@@ -184,7 +245,11 @@ function PageHero({
   );
 }
 
-function CategoriesPage({ go }: { go: (path: string) => void }) {
+function CategoriesPage({
+  go,
+}: {
+  go: (path: string) => void;
+}) {
   return (
     <>
       <PageHero
@@ -213,7 +278,10 @@ function CategoriesPage({ go }: { go: (path: string) => void }) {
                   <p>{category.description}</p>
                 </div>
 
-                <ArrowRight className="category-arrow" size={18} />
+                <ArrowRight
+                  className="category-arrow"
+                  size={18}
+                />
               </button>
             );
           })}
@@ -223,10 +291,15 @@ function CategoriesPage({ go }: { go: (path: string) => void }) {
       <section className="info-band">
         <div>
           <span className="eyebrow">AURORA COLLECTION</span>
-          <h2>More collections will appear as real products are added.</h2>
+          <h2>
+            More collections will appear as real products are added.
+          </h2>
         </div>
 
-        <button className="primary-button" onClick={() => go("/products")}>
+        <button
+          className="primary-button"
+          onClick={() => go("/products")}
+        >
           View Products <ArrowRight size={18} />
         </button>
       </section>
@@ -252,8 +325,8 @@ function ProductsPage() {
           <h3>Our collection is being curated</h3>
 
           <p>
-            Products will appear here automatically when they are added through
-            the Aurora admin system.
+            Products will appear here automatically when they are
+            added through the Aurora admin system.
           </p>
         </div>
       </section>
@@ -263,12 +336,30 @@ function ProductsPage() {
 
 function WhyAuroraPage() {
   const features = [
-    ["Curated discovery", "We want the store to make finding useful products easier."],
-    ["Simple experience", "From browsing to checkout, the goal is a straightforward mobile journey."],
-    ["Clear information", "Product names, pricing and important purchase details should be presented clearly."],
-    ["Customer first", "Accounts, orders, addresses and support are being built around customer needs."],
-    ["Secure accounts", "Customer authentication will be handled by Appwrite."],
-    ["Built to improve", "Aurora will keep evolving as real products and feedback are added."],
+    [
+      "Curated discovery",
+      "We want the store to make finding useful products easier.",
+    ],
+    [
+      "Simple experience",
+      "From browsing to checkout, the goal is a straightforward mobile journey.",
+    ],
+    [
+      "Clear information",
+      "Product names, pricing and important purchase details should be presented clearly.",
+    ],
+    [
+      "Customer first",
+      "Accounts, orders, addresses and support are being built around customer needs.",
+    ],
+    [
+      "Secure accounts",
+      "Customer authentication is handled by Appwrite.",
+    ],
+    [
+      "Built to improve",
+      "Aurora will keep evolving as real products and feedback are added.",
+    ],
   ];
 
   return (
@@ -282,7 +373,10 @@ function WhyAuroraPage() {
       <section className="section page-section">
         <div className="feature-story-grid">
           {features.map(([title, description], index) => (
-            <article className="feature-story-card" key={title}>
+            <article
+              className="feature-story-card"
+              key={title}
+            >
               <div className="feature-number">
                 0{index + 1}
               </div>
@@ -296,11 +390,16 @@ function WhyAuroraPage() {
 
       <section className="dark-info-section">
         <div className="dark-info-inner">
-          <span className="eyebrow">THE AURORA STANDARD</span>
+          <span className="eyebrow">
+            THE AURORA STANDARD
+          </span>
+
           <h2>Discover. Choose. Enjoy.</h2>
+
           <p>
-            Every part of Aurora is being built to make online shopping feel
-            more considered, useful and easier to navigate.
+            Every part of Aurora is being built to make online
+            shopping feel more considered, useful and easier to
+            navigate.
           </p>
         </div>
       </section>
@@ -320,25 +419,28 @@ function AboutPage() {
       <section className="section page-section">
         <div className="about-grid">
           <div className="about-main">
-            <span className="eyebrow">ABOUT THE BRAND</span>
+            <span className="eyebrow">
+              ABOUT THE BRAND
+            </span>
 
             <h2>A store built with a simple idea.</h2>
 
             <p>
-              Aurora is designed for people who want to discover products
-              without getting lost in a complicated shopping experience.
+              Aurora is designed for people who want to discover
+              products without getting lost in a complicated
+              shopping experience.
             </p>
 
             <p>
-              Our focus is clear product presentation, easy navigation,
-              secure customer accounts and a smooth journey from discovery to
-              delivery.
+              Our focus is clear product presentation, easy
+              navigation, secure customer accounts and a smooth
+              journey from discovery to delivery.
             </p>
 
             <p>
-              As the store grows, real products and useful customer features
-              will be added gradually rather than filling the site with
-              placeholders.
+              As the store grows, real products and useful
+              customer features will be added gradually rather
+              than filling the site with placeholders.
             </p>
           </div>
 
@@ -373,22 +475,37 @@ function ContactPage() {
       <section className="section page-section">
         <div className="contact-grid">
           <div className="contact-info">
-            <span className="eyebrow">GET SUPPORT</span>
+            <span className="eyebrow">
+              GET SUPPORT
+            </span>
 
             <h2>How can we help?</h2>
 
             <p>
-              Choose the type of help you need. The live contact and enquiry
-              connection will be added with the customer backend.
+              Choose the type of help you need. The live contact
+              and enquiry connection will be added with the
+              customer backend.
             </p>
 
             <div className="contact-cards">
               {[
-                ["Order Support", "Questions about an order, delivery or tracking."],
-                ["Returns & Help", "Need help with an eligible return or product issue?"],
-                ["General Enquiry", "Questions, feedback or business-related enquiries."],
+                [
+                  "Order Support",
+                  "Questions about an order, delivery or tracking.",
+                ],
+                [
+                  "Returns & Help",
+                  "Need help with an eligible return or product issue?",
+                ],
+                [
+                  "General Enquiry",
+                  "Questions, feedback or business-related enquiries.",
+                ],
               ].map(([title, description]) => (
-                <div className="contact-card" key={title}>
+                <div
+                  className="contact-card"
+                  key={title}
+                >
                   <div className="contact-card-icon">
                     <Headphones size={20} />
                   </div>
@@ -404,26 +521,42 @@ function ContactPage() {
 
           <form
             className="contact-form"
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={(event) =>
+              event.preventDefault()
+            }
           >
-            <span className="eyebrow">SEND A MESSAGE</span>
+            <span className="eyebrow">
+              SEND A MESSAGE
+            </span>
 
             <label>
               Name
-              <input type="text" placeholder="Your name" />
+              <input
+                type="text"
+                placeholder="Your name"
+              />
             </label>
 
             <label>
               Email
-              <input type="email" placeholder="Your email" />
+              <input
+                type="email"
+                placeholder="Your email"
+              />
             </label>
 
             <label>
               Message
-              <textarea placeholder="How can we help?" rows={5} />
+              <textarea
+                placeholder="How can we help?"
+                rows={5}
+              />
             </label>
 
-            <button className="primary-button" type="submit">
+            <button
+              className="primary-button"
+              type="submit"
+            >
               Send Enquiry <ArrowRight size={18} />
             </button>
           </form>
@@ -448,20 +581,26 @@ function FAQPage() {
         <div className="faq-list">
           {faqs.map((faq, index) => (
             <div
-              className={`faq-item ${open === index ? "open" : ""}`}
+              className={`faq-item ${
+                open === index ? "open" : ""
+              }`}
               key={faq.question}
             >
               <button
                 type="button"
                 onClick={() =>
-                  setOpen(open === index ? null : index)
+                  setOpen(
+                    open === index ? null : index
+                  )
                 }
               >
                 <span>{faq.question}</span>
                 <ChevronDown size={19} />
               </button>
 
-              {open === index && <p>{faq.answer}</p>}
+              {open === index && (
+                <p>{faq.answer}</p>
+              )}
             </div>
           ))}
         </div>
@@ -470,10 +609,27 @@ function FAQPage() {
   );
 }
 
+/* =========================================================
+   ACCOUNT / AUTH
+   ========================================================= */
+
 function AccountPage() {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  type AuthMode =
+    | "signin"
+    | "signup"
+    | "forgot"
+    | "reset"
+    | "verify";
+
+  const [mode, setMode] =
+    useState<AuthMode>("signin");
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [submitting, setSubmitting] =
+    useState(false);
+
   const [user, setUser] = useState<{
     $id: string;
     name: string;
@@ -483,41 +639,239 @@ function AccountPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [newPassword, setNewPassword] =
+    useState("");
 
-  useEffect(() => {
-    const checkSession = async () => {
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [showNewPassword, setShowNewPassword] =
+    useState(false);
+
+  const [message, setMessage] =
+    useState("");
+
+  const [success, setSuccess] =
+    useState(false);
+
+  const [verificationEmail, setVerificationEmail] =
+    useState("");
+
+  const [recoveryUserId, setRecoveryUserId] =
+    useState("");
+
+  const [recoverySecret, setRecoverySecret] =
+    useState("");
+
+  const getHashData = () => {
+    const rawHash =
+      window.location.hash.replace(/^#/, "");
+
+    const [path, queryString = ""] =
+      rawHash.split("?");
+
+    return {
+      path,
+      params: new URLSearchParams(queryString),
+    };
+  };
+
+  const cleanAuthUrl = () => {
+    window.history.replaceState(
+      {},
+      document.title,
+      `${window.location.pathname}#account`
+    );
+  };
+
+  const sendVerificationEmail = async (
+    userEmail?: string
+  ) => {
+    const { account } =
+      await import("./lib/appwrite");
+
+    await account.createVerification({
+      url:
+        "https://aurora-stor.vercel.app/#account/verify-email",
+    });
+
+    setVerificationEmail(
+      userEmail || email
+    );
+  };
+
+  const completeEmailVerification =
+    async () => {
+      const { account } =
+        await import("./lib/appwrite");
+
+      const { params } =
+        getHashData();
+
+      const userId =
+        params.get("userId");
+
+      const secret =
+        params.get("secret");
+
+      if (!userId || !secret) {
+        setSuccess(false);
+
+        setMessage(
+          "This verification link is incomplete or invalid. Please request a new verification email."
+        );
+
+        setLoading(false);
+        return;
+      }
+
       try {
-        const { account } = await import("./lib/appwrite");
-        const currentUser = await account.get();
-
-        setUser({
-          $id: currentUser.$id,
-          name: currentUser.name,
-          email: currentUser.email,
+        await account.updateVerification({
+          userId,
+          secret,
         });
-      } catch {
-        setUser(null);
+
+        cleanAuthUrl();
+
+        setSuccess(true);
+
+        setMessage(
+          "Email verified successfully. You can now use your Aurora account."
+        );
+
+        setMode("signin");
+
+        try {
+          const currentUser =
+            await account.get();
+
+          setUser({
+            $id: currentUser.$id,
+            name: currentUser.name,
+            email: currentUser.email,
+          });
+        } catch {
+          setUser(null);
+        }
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Email verification failed. Please request a new link.";
+
+        setSuccess(false);
+        setMessage(errorMessage);
       } finally {
         setLoading(false);
       }
     };
 
-    checkSession();
+  const preparePasswordRecovery =
+    () => {
+      const { params } =
+        getHashData();
+
+      const userId =
+        params.get("userId");
+
+      const secret =
+        params.get("secret");
+
+      if (!userId || !secret) {
+        setSuccess(false);
+
+        setMessage(
+          "This password reset link is invalid or incomplete. Please request a new one."
+        );
+
+        setLoading(false);
+        return;
+      }
+
+      setRecoveryUserId(userId);
+      setRecoverySecret(secret);
+      setMode("reset");
+      setLoading(false);
+    };
+
+  useEffect(() => {
+    const initializeAccount =
+      async () => {
+        const { path } =
+          getHashData();
+
+        if (
+          path ===
+          "account/verify-email"
+        ) {
+          await completeEmailVerification();
+          return;
+        }
+
+        if (
+          path ===
+          "account/reset-password"
+        ) {
+          preparePasswordRecovery();
+          return;
+        }
+
+        try {
+          const { account } =
+            await import(
+              "./lib/appwrite"
+            );
+
+          const currentUser =
+            await account.get();
+
+          setUser({
+            $id: currentUser.$id,
+            name: currentUser.name,
+            email: currentUser.email,
+          });
+        } catch {
+          setUser(null);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+    initializeAccount();
   }, []);
 
-  const handleAuth = async (event: React.FormEvent) => {
+  const handleAuth = async (
+    event: React.FormEvent
+  ) => {
     event.preventDefault();
 
     setMessage("");
+    setSuccess(false);
     setSubmitting(true);
 
     try {
-      const { account, ID } = await import("./lib/appwrite");
+      const { account, ID } =
+        await import(
+          "./lib/appwrite"
+        );
+
+      if (!email.trim()) {
+        throw new Error(
+          "Please enter your email address."
+        );
+      }
 
       if (mode === "signup") {
         if (!name.trim()) {
-          throw new Error("Please enter your name.");
+          throw new Error(
+            "Please enter your name."
+          );
+        }
+
+        if (password.length < 8) {
+          throw new Error(
+            "Password must be at least 8 characters."
+          );
         }
 
         await account.create({
@@ -527,56 +881,262 @@ function AccountPage() {
           name: name.trim(),
         });
 
-        await account.createEmailPasswordSession({
-          email: email.trim(),
-          password,
-        });
+        await account.createEmailPasswordSession(
+          {
+            email: email.trim(),
+            password,
+          }
+        );
 
-        const currentUser = await account.get();
+        const currentUser =
+          await account.get();
 
-        setUser({
-          $id: currentUser.$id,
-          name: currentUser.name,
-          email: currentUser.email,
-        });
-
-        setPassword("");
-        setMessage("Account created successfully.");
-      } else {
-        await account.createEmailPasswordSession({
-          email: email.trim(),
-          password,
-        });
-
-        const currentUser = await account.get();
-
-        setUser({
-          $id: currentUser.$id,
-          name: currentUser.name,
-          email: currentUser.email,
-        });
+        setVerificationEmail(
+          currentUser.email
+        );
 
         setPassword("");
-        setMessage("Welcome back.");
+        setMode("verify");
+
+        try {
+          await sendVerificationEmail(
+            currentUser.email
+          );
+
+          setSuccess(true);
+
+          setMessage(
+            "Account created. We sent a verification email to your inbox."
+          );
+        } catch (verificationError) {
+          const verificationMessage =
+            verificationError instanceof
+            Error
+              ? verificationError.message
+              : "The account was created, but the verification email could not be sent.";
+
+          setSuccess(false);
+
+          setMessage(
+            `Account created, but verification email could not be sent: ${verificationMessage}`
+          );
+        }
+
+        return;
       }
+
+      await account.createEmailPasswordSession(
+        {
+          email: email.trim(),
+          password,
+        }
+      );
+
+      const currentUser =
+        await account.get();
+
+      if (!currentUser.emailVerification) {
+        setVerificationEmail(
+          currentUser.email
+        );
+
+        setPassword("");
+        setMode("verify");
+
+        try {
+          await sendVerificationEmail(
+            currentUser.email
+          );
+
+          setSuccess(true);
+
+          setMessage(
+            "Your email is not verified yet. We sent a verification email."
+          );
+        } catch (verificationError) {
+          const verificationMessage =
+            verificationError instanceof
+            Error
+              ? verificationError.message
+              : "Verification email could not be sent.";
+
+          setSuccess(false);
+          setMessage(
+            verificationMessage
+          );
+        }
+
+        return;
+      }
+
+      setUser({
+        $id: currentUser.$id,
+        name: currentUser.name,
+        email: currentUser.email,
+      });
+
+      setPassword("");
+
+      setSuccess(true);
+      setMessage("Welcome back.");
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Something went wrong. Please try again.";
 
+      setSuccess(false);
       setMessage(errorMessage);
     } finally {
       setSubmitting(false);
     }
   };
 
+  const handleForgotPassword =
+    async (
+      event: React.FormEvent
+    ) => {
+      event.preventDefault();
+
+      setMessage("");
+      setSuccess(false);
+      setSubmitting(true);
+
+      try {
+        if (!email.trim()) {
+          throw new Error(
+            "Please enter your email address."
+          );
+        }
+
+        const { account } =
+          await import(
+            "./lib/appwrite"
+          );
+
+        await account.createRecovery({
+          email: email.trim(),
+          url:
+            "https://aurora-stor.vercel.app/#account/reset-password",
+        });
+
+        setSuccess(true);
+
+        setMessage(
+          "Password reset email sent. Please check your inbox and spam folder."
+        );
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Could not send the password reset email.";
+
+        setSuccess(false);
+        setMessage(errorMessage);
+      } finally {
+        setSubmitting(false);
+      }
+    };
+
+  const handleResetPassword =
+    async (
+      event: React.FormEvent
+    ) => {
+      event.preventDefault();
+
+      setMessage("");
+      setSuccess(false);
+      setSubmitting(true);
+
+      try {
+        if (
+          !recoveryUserId ||
+          !recoverySecret
+        ) {
+          throw new Error(
+            "This reset link is invalid. Please request a new password reset email."
+          );
+        }
+
+        if (newPassword.length < 8) {
+          throw new Error(
+            "New password must be at least 8 characters."
+          );
+        }
+
+        const { account } =
+          await import(
+            "./lib/appwrite"
+          );
+
+        await account.updateRecovery({
+          userId: recoveryUserId,
+          secret: recoverySecret,
+          password: newPassword,
+        });
+
+        cleanAuthUrl();
+
+        setNewPassword("");
+
+        setSuccess(true);
+
+        setMessage(
+          "Password updated successfully. You can now sign in with your new password."
+        );
+
+        setMode("signin");
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Password reset failed. Please request a new reset link.";
+
+        setSuccess(false);
+        setMessage(errorMessage);
+      } finally {
+        setSubmitting(false);
+      }
+    };
+
+  const handleResendVerification =
+    async () => {
+      setMessage("");
+      setSuccess(false);
+      setSubmitting(true);
+
+      try {
+        await sendVerificationEmail(
+          verificationEmail || email
+        );
+
+        setSuccess(true);
+
+        setMessage(
+          "A new verification email has been sent."
+        );
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Could not send the verification email.";
+
+        setSuccess(false);
+        setMessage(errorMessage);
+      } finally {
+        setSubmitting(false);
+      }
+    };
+
   const handleLogout = async () => {
     setSubmitting(true);
     setMessage("");
 
     try {
-      const { account } = await import("./lib/appwrite");
+      const { account } =
+        await import(
+          "./lib/appwrite"
+        );
 
       await account.deleteSession({
         sessionId: "current",
@@ -586,13 +1146,21 @@ function AccountPage() {
       setName("");
       setEmail("");
       setPassword("");
-      setMessage("You have been logged out.");
+      setNewPassword("");
+
+      setSuccess(true);
+      setMessage(
+        "You have been logged out."
+      );
+
+      setMode("signin");
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Logout failed. Please try again.";
 
+      setSuccess(false);
       setMessage(errorMessage);
     } finally {
       setSubmitting(false);
@@ -614,10 +1182,14 @@ function AccountPage() {
               <ShoppingBag size={27} />
             </div>
 
-            <h2>Checking your account...</h2>
+            <h2>
+              Checking your account...
+            </h2>
 
             <p>
-              Please wait while Aurora restores your existing session.
+              Please wait while Aurora
+              restores your existing
+              session.
             </p>
           </div>
         </section>
@@ -640,14 +1212,23 @@ function AccountPage() {
               <Check size={27} />
             </div>
 
-            <span className="eyebrow">SIGNED IN</span>
+            <span className="eyebrow">
+              SIGNED IN
+            </span>
 
-            <h2>{user.name || "Aurora Customer"}</h2>
+            <h2>
+              {user.name ||
+                "Aurora Customer"}
+            </h2>
 
             <p>{user.email}</p>
 
             {message && (
-              <div className="auth-message success">
+              <div
+                className={`auth-message ${
+                  success ? "success" : ""
+                }`}
+              >
                 {message}
               </div>
             )}
@@ -668,419 +1249,14 @@ function AccountPage() {
 
             <div className="account-actions">
               <button
-                className="secondary-light-button"
+                className="secondary-button"
                 type="button"
                 onClick={handleLogout}
                 disabled={submitting}
               >
-                {submitting ? "Logging out..." : "Logout"}
-              </button>
-            </div>
-          </div>
-        </section>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <PageHero
-        eyebrow="YOUR AURORA"
-        title="My Account"
-        description="Create your Aurora account or sign in to continue shopping."
-      />
-
-      <section className="section page-section">
-        <div className="account-auth-card">
-          <div className="account-icon">
-            <ShoppingBag size={27} />
-          </div>
-
-          <span className="eyebrow">
-            {mode === "signin" ? "WELCOME BACK" : "JOIN AURORA"}
-          </span>
-
-          <h2>
-            {mode === "signin"
-              ? "Sign in to your account."
-              : "Create your account."}
-          </h2>
-
-          <p>
-            {mode === "signin"
-              ? "Sign in once and Aurora will keep your session active when you return."
-              : "Create your Aurora account and stay signed in on future visits."}
-          </p>
-
-          <form className="account-auth-form" onSubmit={handleAuth}>
-            {mode === "signup" && (
-              <label>
-                Full Name
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  placeholder="Your full name"
-                  autoComplete="name"
-                  required
-                />
-              </label>
-            )}
-
-            <label>
-              Email
-              <input
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="Your email"
-                autoComplete="email"
-function AccountPage() {
-  const [mode, setMode] = useState<
-    "signin" | "signup" | "forgot" | "reset" | "verify"
-  >("signin");
-
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-
-  const [user, setUser] = useState<{
-    $id: string;
-    name: string;
-    email: string;
-    emailVerification: boolean;
-  } | null>(null);
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  const [resetUserId, setResetUserId] = useState("");
-  const [resetSecret, setResetSecret] = useState("");
-
-  const loadCurrentUser = async () => {
-    const { account } = await import("./lib/appwrite");
-    const currentUser = await account.get();
-
-    return {
-      $id: currentUser.$id,
-      name: currentUser.name,
-      email: currentUser.email,
-      emailVerification: currentUser.emailVerification,
-    };
-  };
-
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const { account } = await import("./lib/appwrite");
-
-        const hash = window.location.hash;
-
-        if (hash.startsWith("#verify-email")) {
-          const query = hash.split("?")[1] || "";
-          const params = new URLSearchParams(query);
-
-          const userId = params.get("userId");
-          const secret = params.get("secret");
-
-          if (userId && secret) {
-            await account.updateVerification({
-              userId,
-              secret,
-            });
-
-            window.location.hash = "account";
-            setSuccess(true);
-            setMessage("Email verified successfully. You can now sign in.");
-          } else {
-            setSuccess(false);
-            setMessage("The verification link is missing required information.");
-          }
-        }
-
-        if (hash.startsWith("#reset-password")) {
-          const query = hash.split("?")[1] || "";
-          const params = new URLSearchParams(query);
-
-          const userId = params.get("userId");
-          const secret = params.get("secret");
-
-          if (userId && secret) {
-            setResetUserId(userId);
-            setResetSecret(secret);
-            setMode("reset");
-          } else {
-            setSuccess(false);
-            setMessage("The password recovery link is invalid or incomplete.");
-          }
-
-          setLoading(false);
-          return;
-        }
-
-        const currentUser = await loadCurrentUser();
-
-        if (currentUser.emailVerification) {
-          setUser(currentUser);
-        } else {
-          setUser(null);
-          setMode("verify");
-        }
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initializeAuth();
-  }, []);
-
-  const handleAuth = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    setMessage("");
-    setSuccess(false);
-    setSubmitting(true);
-
-    try {
-      const { account, ID } = await import("./lib/appwrite");
-
-      if (mode === "signup") {
-        if (!name.trim()) {
-          throw new Error("Please enter your name.");
-        }
-
-        await account.create({
-          userId: ID.unique(),
-          email: email.trim(),
-          password,
-          name: name.trim(),
-        });
-
-        await account.createEmailPasswordSession({
-          email: email.trim(),
-          password,
-        });
-
-        await account.createVerification({
-          url: "https://aurora-stor.vercel.app/#verify-email",
-        });
-
-        setMode("verify");
-        setSuccess(true);
-        setMessage(
-          `Verification email sent to ${email.trim()}. Please open your email and verify your address before continuing.`
-        );
-
-        setPassword("");
-      } else if (mode === "signin") {
-        await account.createEmailPasswordSession({
-          email: email.trim(),
-          password,
-        });
-
-        const currentUser = await loadCurrentUser();
-
-        if (!currentUser.emailVerification) {
-          await account.createVerification({
-            url: "https://aurora-stor.vercel.app/#verify-email",
-          });
-
-          setUser(null);
-          setMode("verify");
-          setSuccess(true);
-          setMessage(
-            `Your email is not verified yet. We sent a new verification email to ${currentUser.email}.`
-          );
-        } else {
-          setUser(currentUser);
-          setSuccess(true);
-          setMessage("Welcome back.");
-        }
-
-        setPassword("");
-      } else if (mode === "forgot") {
-        await account.createRecovery({
-          email: email.trim(),
-          url: "https://aurora-stor.vercel.app/#reset-password",
-        });
-
-        setSuccess(true);
-        setMessage(
-          "If an account exists for this email, a password recovery email has been sent."
-        );
-      } else if (mode === "reset") {
-        if (password.length < 8) {
-          throw new Error("Password must be at least 8 characters.");
-        }
-
-        await account.updateRecovery({
-          userId: resetUserId,
-          secret: resetSecret,
-          password,
-        });
-
-        setMode("signin");
-        setPassword("");
-        setSuccess(true);
-        setMessage(
-          "Password changed successfully. You can now sign in with your new password."
-        );
-
-        window.location.hash = "account";
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.";
-
-      setSuccess(false);
-      setMessage(errorMessage);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleResendVerification = async () => {
-    setSubmitting(true);
-    setMessage("");
-    setSuccess(false);
-
-    try {
-      const { account } = await import("./lib/appwrite");
-
-      await account.createVerification({
-        url: "https://aurora-stor.vercel.app/#verify-email",
-      });
-
-      setSuccess(true);
-      setMessage("A new verification email has been sent.");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Unable to send verification email.";
-
-      setMessage(errorMessage);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    setSubmitting(true);
-    setMessage("");
-    setSuccess(false);
-
-    try {
-      const { account } = await import("./lib/appwrite");
-
-      await account.deleteSession({
-        sessionId: "current",
-      });
-
-      setUser(null);
-      setName("");
-      setEmail("");
-      setPassword("");
-      setMode("signin");
-
-      setSuccess(true);
-      setMessage("You have been logged out.");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Logout failed. Please try again.";
-
-      setMessage(errorMessage);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <>
-        <PageHero
-          eyebrow="YOUR AURORA"
-          title="My Account"
-          description="Checking your secure Aurora session."
-        />
-
-        <section className="section page-section">
-          <div className="account-preview">
-            <div className="account-icon">
-              <ShoppingBag size={27} />
-            </div>
-
-            <h2>Checking your account...</h2>
-
-            <p>
-              Please wait while Aurora restores your existing session.
-            </p>
-          </div>
-        </section>
-      </>
-    );
-  }
-
-  if (user) {
-    return (
-      <>
-        <PageHero
-          eyebrow="YOUR AURORA"
-          title="Welcome back."
-          description="Your verified Aurora account is active."
-        />
-
-        <section className="section page-section">
-          <div className="account-preview">
-            <div className="account-icon">
-              <Check size={27} />
-            </div>
-
-            <span className="eyebrow">EMAIL VERIFIED</span>
-
-            <h2>{user.name || "Aurora Customer"}</h2>
-
-            <p>{user.email}</p>
-
-            {message && (
-              <div className="auth-message success">
-                {message}
-              </div>
-            )}
-
-            <div className="account-feature-grid">
-              {[
-                "Profile",
-                "My Orders",
-                "Saved Addresses",
-                "Account Settings",
-              ].map((item) => (
-                <div key={item}>
-                  <Check size={16} />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="account-actions">
-              <button
-                className="secondary-light-button"
-                type="button"
-                onClick={handleLogout}
-                disabled={submitting}
-              >
-                {submitting ? "Logging out..." : "Logout"}
+                {submitting
+                  ? "Signing out..."
+                  : "Sign Out"}
               </button>
             </div>
           </div>
@@ -1093,9 +1269,9 @@ function AccountPage() {
     return (
       <>
         <PageHero
-          eyebrow="VERIFY YOUR EMAIL"
-          title="One more step."
-          description="Please verify your email address before continuing with Aurora."
+          eyebrow="EMAIL VERIFICATION"
+          title="One last step."
+          description="Verify your email address to finish setting up your Aurora account."
         />
 
         <section className="section page-section">
@@ -1104,14 +1280,23 @@ function AccountPage() {
               <ShieldCheck size={27} />
             </div>
 
-            <span className="eyebrow">EMAIL VERIFICATION</span>
+            <span className="eyebrow">
+              VERIFY YOUR EMAIL
+            </span>
 
-            <h2>Check your inbox.</h2>
+            <h2>
+              Check your inbox.
+            </h2>
 
             <p>
-              We sent a verification link to your email address. Open it to
-              verify your account.
+              We sent a verification
+              link to:
             </p>
+
+            <strong>
+              {verificationEmail ||
+                email}
+            </strong>
 
             {message && (
               <div
@@ -1126,27 +1311,138 @@ function AccountPage() {
             <button
               className="primary-button auth-submit-button"
               type="button"
-              onClick={handleResendVerification}
+              onClick={
+                handleResendVerification
+              }
               disabled={submitting}
             >
-              {submitting ? "Sending..." : "Resend Verification Email"}
-              {!submitting && <ArrowRight size={18} />}
+              {submitting
+                ? "Sending..."
+                : "Resend Verification Email"}
+
+              {!submitting && (
+                <ArrowRight size={18} />
+              )}
             </button>
 
-            <div className="auth-switch">
-              <span>Already verified?</span>
+            <button
+              className="auth-secondary-action"
+              type="button"
+              onClick={async () => {
+                try {
+                  const { account } =
+                    await import(
+                      "./lib/appwrite"
+                    );
+
+                  await account.deleteSession(
+                    {
+                      sessionId: "current",
+                    }
+                  );
+                } catch {}
+
+                setMode("signin");
+                setMessage("");
+                setSuccess(false);
+              }}
+            >
+              Back to Sign In
+            </button>
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  if (mode === "forgot") {
+    return (
+      <>
+        <PageHero
+          eyebrow="PASSWORD RECOVERY"
+          title="Forgot your password?"
+          description="Enter your account email and Aurora will send you a secure password reset link."
+        />
+
+        <section className="section page-section">
+          <div className="account-auth-card">
+            <div className="account-icon">
+              <ShieldCheck size={27} />
+            </div>
+
+            <span className="eyebrow">
+              RECOVER ACCOUNT
+            </span>
+
+            <h2>
+              Reset your password.
+            </h2>
+
+            <p>
+              Enter the email address
+              connected to your Aurora
+              account.
+            </p>
+
+            <form
+              className="account-auth-form"
+              onSubmit={
+                handleForgotPassword
+              }
+            >
+              <label>
+                Email
+
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) =>
+                    setEmail(
+                      event.target.value
+                    )
+                  }
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  required
+                />
+              </label>
+
+              {message && (
+                <div
+                  className={`auth-message ${
+                    success ? "success" : ""
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
 
               <button
-                type="button"
-                onClick={() => {
-                  setMode("signin");
-                  setMessage("");
-                  setSuccess(false);
-                }}
+                className="primary-button auth-submit-button"
+                type="submit"
+                disabled={submitting}
               >
-                Sign In
+                {submitting
+                  ? "Sending..."
+                  : "Send Reset Link"}
+
+                {!submitting && (
+                  <ArrowRight size={18} />
+                )}
               </button>
-            </div>
+            </form>
+
+            <button
+              className="auth-secondary-action"
+              type="button"
+              onClick={() => {
+                setMode("signin");
+                setMessage("");
+                setSuccess(false);
+              }}
+            >
+              Back to Sign In
+            </button>
           </div>
         </section>
       </>
@@ -1157,9 +1453,9 @@ function AccountPage() {
     return (
       <>
         <PageHero
-          eyebrow="SECURE RECOVERY"
+          eyebrow="PASSWORD RECOVERY"
           title="Create a new password."
-          description="Choose a new password for your Aurora account."
+          description="Choose a new secure password for your Aurora account."
         />
 
         <section className="section page-section">
@@ -1168,27 +1464,41 @@ function AccountPage() {
               <ShieldCheck size={27} />
             </div>
 
-            <span className="eyebrow">PASSWORD RESET</span>
+            <span className="eyebrow">
+              PASSWORD RESET
+            </span>
 
-            <h2>Set your new password.</h2>
+            <h2>
+              Set your new password.
+            </h2>
 
             <p>
-              Your recovery link is ready. Enter a new password below.
+              Your recovery link is ready.
+              Enter your new password
+              below.
             </p>
 
             <form
               className="account-auth-form"
-              onSubmit={handleAuth}
+              onSubmit={
+                handleResetPassword
+              }
             >
               <label>
                 New Password
 
                 <div className="password-input-wrap">
                   <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
+                    type={
+                      showNewPassword
+                        ? "text"
+                        : "password"
+                    }
+                    value={newPassword}
                     onChange={(event) =>
-                      setPassword(event.target.value)
+                      setNewPassword(
+                        event.target.value
+                      )
                     }
                     placeholder="At least 8 characters"
                     autoComplete="new-password"
@@ -1200,15 +1510,17 @@ function AccountPage() {
                     type="button"
                     className="password-toggle"
                     onClick={() =>
-                      setShowPassword(!showPassword)
+                      setShowNewPassword(
+                        !showNewPassword
+                      )
                     }
                     aria-label={
-                      showPassword
+                      showNewPassword
                         ? "Hide password"
                         : "Show password"
                     }
                   >
-                    {showPassword ? (
+                    {showNewPassword ? (
                       <EyeOff size={19} />
                     ) : (
                       <Eye size={19} />
@@ -1232,8 +1544,13 @@ function AccountPage() {
                 type="submit"
                 disabled={submitting}
               >
-                {submitting ? "Updating..." : "Update Password"}
-                {!submitting && <ArrowRight size={18} />}
+                {submitting
+                  ? "Updating..."
+                  : "Update Password"}
+
+                {!submitting && (
+                  <Check size={18} />
+                )}
               </button>
             </form>
           </div>
@@ -1257,7 +1574,9 @@ function AccountPage() {
           </div>
 
           <span className="eyebrow">
-            {mode === "signin" ? "WELCOME BACK" : "JOIN AURORA"}
+            {mode === "signin"
+              ? "WELCOME BACK"
+              : "JOIN AURORA"}
           </span>
 
           <h2>
@@ -1268,11 +1587,14 @@ function AccountPage() {
 
           <p>
             {mode === "signin"
-              ? "Sign in once and Aurora will keep your session active when you return."
+              ? "Sign in to access your Aurora account and orders."
               : "Create your Aurora account and verify your email to activate it."}
           </p>
 
-          <form className="account-auth-form" onSubmit={handleAuth}>
+          <form
+            className="account-auth-form"
+            onSubmit={handleAuth}
+          >
             {mode === "signup" && (
               <label>
                 Full Name
@@ -1280,7 +1602,11 @@ function AccountPage() {
                 <input
                   type="text"
                   value={name}
-                  onChange={(event) => setName(event.target.value)}
+                  onChange={(event) =>
+                    setName(
+                      event.target.value
+                    )
+                  }
                   placeholder="Your full name"
                   autoComplete="name"
                   required
@@ -1294,7 +1620,11 @@ function AccountPage() {
               <input
                 type="email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(event) =>
+                  setEmail(
+                    event.target.value
+                  )
+                }
                 placeholder="Your email"
                 autoComplete="email"
                 required
@@ -1306,12 +1636,18 @@ function AccountPage() {
 
               <div className="password-input-wrap">
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type={
+                    showPassword
+                      ? "text"
+                      : "password"
+                  }
                   value={password}
                   onChange={(event) =>
-                    setPassword(event.target.value)
+                    setPassword(
+                      event.target.value
+                    )
                   }
-                  placeholder="Your password"
+                  placeholder="At least 8 characters"
                   autoComplete={
                     mode === "signin"
                       ? "current-password"
@@ -1325,7 +1661,9 @@ function AccountPage() {
                   type="button"
                   className="password-toggle"
                   onClick={() =>
-                    setShowPassword(!showPassword)
+                    setShowPassword(
+                      !showPassword
+                    )
                   }
                   aria-label={
                     showPassword
@@ -1374,10 +1712,12 @@ function AccountPage() {
               {submitting
                 ? "Please wait..."
                 : mode === "signin"
-                  ? "Sign In"
-                  : "Create Account"}
+                ? "Sign In"
+                : "Create Account"}
 
-              {!submitting && <ArrowRight size={18} />}
+              {!submitting && (
+                <ArrowRight size={18} />
+              )}
             </button>
           </form>
 
@@ -1394,8 +1734,11 @@ function AccountPage() {
                 setMessage("");
                 setSuccess(false);
                 setShowPassword(false);
+
                 setMode(
-                  mode === "signin" ? "signup" : "signin"
+                  mode === "signin"
+                    ? "signup"
+                    : "signin"
                 );
               }}
             >
@@ -1409,8 +1752,10 @@ function AccountPage() {
             <ShieldCheck size={17} />
 
             <span>
-              Your password is handled securely by Appwrite and is
-              never displayed in the Aurora admin dashboard.
+              Your password is handled
+              securely by Appwrite and is
+              never displayed in the Aurora
+              admin dashboard.
             </span>
           </div>
         </div>
@@ -1419,8 +1764,15 @@ function AccountPage() {
   );
 }
 
+/* =========================================================
+   HOME
+   ========================================================= */
 
-function HomePage({ go }: { go: (path: string) => void }) {
+function HomePage({
+  go,
+}: {
+  go: (path: string) => void;
+}) {
   return (
     <>
       <section className="hero">
@@ -1440,7 +1792,9 @@ function HomePage({ go }: { go: (path: string) => void }) {
         <div className="hero-content">
           <div className="hero-badge">
             <Sparkles size={14} />
-            <span>Curated for modern shoppers</span>
+            <span>
+              Curated for modern shoppers
+            </span>
           </div>
 
           <h1>
@@ -1449,21 +1803,28 @@ function HomePage({ go }: { go: (path: string) => void }) {
           </h1>
 
           <p>
-            Explore carefully selected products, standout finds and everyday
-            essentials — all in one place.
+            Explore carefully selected
+            products, standout finds and
+            everyday essentials — all in
+            one place.
           </p>
 
           <div className="hero-buttons">
             <button
               className="primary-button"
-              onClick={() => go("/products")}
+              onClick={() =>
+                go("/products")
+              }
             >
-              Shop Best Products <ArrowRight size={18} />
+              Shop Best Products{" "}
+              <ArrowRight size={18} />
             </button>
 
             <button
               className="secondary-button"
-              onClick={() => go("/categories")}
+              onClick={() =>
+                go("/categories")
+              }
             >
               Explore Categories
             </button>
@@ -1472,12 +1833,24 @@ function HomePage({ go }: { go: (path: string) => void }) {
 
         <div className="hero-3d-scene">
           <div className="cube">
-            <div className="cube-face cube-front">A</div>
-            <div className="cube-face cube-back">A</div>
-            <div className="cube-face cube-right">A</div>
-            <div className="cube-face cube-left">A</div>
-            <div className="cube-face cube-top">A</div>
-            <div className="cube-face cube-bottom">A</div>
+            <div className="cube-face cube-front">
+              A
+            </div>
+            <div className="cube-face cube-back">
+              A
+            </div>
+            <div className="cube-face cube-right">
+              A
+            </div>
+            <div className="cube-face cube-left">
+              A
+            </div>
+            <div className="cube-face cube-top">
+              A
+            </div>
+            <div className="cube-face cube-bottom">
+              A
+            </div>
           </div>
 
           <div className="orbit orbit-one" />
@@ -1487,10 +1860,15 @@ function HomePage({ go }: { go: (path: string) => void }) {
 
       <section className="section categories-section">
         <div className="section-heading">
-          <span className="eyebrow">EXPLORE</span>
+          <span className="eyebrow">
+            EXPLORE
+          </span>
+
           <h2>Shop by Category</h2>
+
           <p>
-            Browse products by the things you love and use every day.
+            Browse products by the things
+            you love and use every day.
           </p>
         </div>
 
@@ -1501,7 +1879,9 @@ function HomePage({ go }: { go: (path: string) => void }) {
             return (
               <button
                 className="category-card"
-                onClick={() => go("/categories")}
+                onClick={() =>
+                  go("/categories")
+                }
                 key={category.name}
               >
                 <div className="category-icon">
@@ -1510,7 +1890,9 @@ function HomePage({ go }: { go: (path: string) => void }) {
 
                 <div className="category-copy">
                   <h3>{category.name}</h3>
-                  <p>{category.description}</p>
+                  <p>
+                    {category.description}
+                  </p>
                 </div>
 
                 <ArrowRight
@@ -1525,10 +1907,15 @@ function HomePage({ go }: { go: (path: string) => void }) {
 
       <section className="section products-section">
         <div className="section-heading">
-          <span className="eyebrow">SHOP SMART</span>
+          <span className="eyebrow">
+            SHOP SMART
+          </span>
+
           <h2>Best Products &amp; Sale</h2>
+
           <p>
-            Discover selected products and offers as they become available.
+            Discover selected products and
+            offers as they become available.
           </p>
         </div>
 
@@ -1537,27 +1924,40 @@ function HomePage({ go }: { go: (path: string) => void }) {
             <ShoppingBag size={29} />
           </div>
 
-          <h3>Our collection is being curated</h3>
+          <h3>
+            Our collection is being curated
+          </h3>
 
           <p>
-            New products will appear here as they are added to Aurora.
+            New products will appear here as
+            they are added to Aurora.
           </p>
         </div>
 
         <button
           className="text-link-button"
-          onClick={() => go("/products")}
+          onClick={() =>
+            go("/products")
+          }
         >
-          Open Best Products &amp; Sale <ArrowRight size={16} />
+          Open Best Products &amp; Sale{" "}
+          <ArrowRight size={16} />
         </button>
       </section>
 
       <section className="section trust-section">
         <div className="section-heading">
-          <span className="eyebrow">WHY AURORA</span>
-          <h2>Shopping made simple.</h2>
+          <span className="eyebrow">
+            WHY AURORA
+          </span>
+
+          <h2>
+            Shopping made simple.
+          </h2>
+
           <p>
-            A clean, convenient shopping experience built around you.
+            A clean, convenient shopping
+            experience built around you.
           </p>
         </div>
 
@@ -1566,13 +1966,19 @@ function HomePage({ go }: { go: (path: string) => void }) {
             const Icon = item.icon;
 
             return (
-              <article className="trust-card" key={item.title}>
+              <article
+                className="trust-card"
+                key={item.title}
+              >
                 <div className="trust-icon">
                   <Icon size={21} />
                 </div>
 
                 <h3>{item.title}</h3>
-                <p>{item.description}</p>
+
+                <p>
+                  {item.description}
+                </p>
               </article>
             );
           })}
@@ -1582,37 +1988,52 @@ function HomePage({ go }: { go: (path: string) => void }) {
               <ShieldCheck size={21} />
             </div>
 
-            <h3>4 Days Easy Return</h3>
+            <h3>
+              4 Days Easy Return
+            </h3>
+
             <p>
-              Easy returns within our 4-day return window, subject to the
-              return policy.
+              Easy returns within our
+              4-day return window, subject
+              to the return policy.
             </p>
           </article>
         </div>
 
         <button
           className="text-link-button"
-          onClick={() => go("/why-aurora")}
+          onClick={() =>
+            go("/why-aurora")
+          }
         >
-          Discover Why Aurora <ArrowRight size={16} />
+          Discover Why Aurora{" "}
+          <ArrowRight size={16} />
         </button>
       </section>
 
       <section className="cta-section">
         <div className="cta-content">
-          <span className="eyebrow">EXPLORE AURORA</span>
+          <span className="eyebrow">
+            EXPLORE AURORA
+          </span>
 
-          <h2>Find something you'll love.</h2>
+          <h2>
+            Find something you'll love.
+          </h2>
 
           <p>
-            Discover products selected for modern everyday living.
+            Discover products selected for
+            modern everyday living.
           </p>
 
           <button
             className="primary-button"
-            onClick={() => go("/categories")}
+            onClick={() =>
+              go("/categories")
+            }
           >
-            Start Exploring <ArrowRight size={18} />
+            Start Exploring{" "}
+            <ArrowRight size={18} />
           </button>
         </div>
       </section>
@@ -1620,18 +2041,31 @@ function HomePage({ go }: { go: (path: string) => void }) {
   );
 }
 
+/* =========================================================
+   APP
+   ========================================================= */
+
 function App() {
-  const [showSplash, setShowSplash] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [showSplash, setShowSplash] =
+    useState(true);
+
+  const [menuOpen, setMenuOpen] =
+    useState(false);
 
   const [route, setRoute] = useState(
-    window.location.hash.replace("#", "") || "home"
+    window.location.hash.replace(
+      "#",
+      ""
+    ) || "home"
   );
 
   useEffect(() => {
     const onHashChange = () => {
       setRoute(
-        window.location.hash.replace("#", "") || "home"
+        window.location.hash.replace(
+          "#",
+          ""
+        ) || "home"
       );
 
       window.scrollTo({
@@ -1640,15 +2074,24 @@ function App() {
       });
     };
 
-    window.addEventListener("hashchange", onHashChange);
+    window.addEventListener(
+      "hashchange",
+      onHashChange
+    );
 
     return () =>
-      window.removeEventListener("hashchange", onHashChange);
+      window.removeEventListener(
+        "hashchange",
+        onHashChange
+      );
   }, []);
 
   const go = (path: string) => {
     const cleanPath =
-      path.replace(/^#\/?/, "").replace(/^\//, "") || "home";
+      path
+        .replace(/^#\/?/, "")
+        .replace(/^\//, "") ||
+      "home";
 
     setMenuOpen(false);
 
@@ -1657,11 +2100,17 @@ function App() {
         top: 0,
         behavior: "smooth",
       });
+
       return;
     }
 
-    window.location.hash = cleanPath;
+    window.location.hash =
+      cleanPath;
   };
+
+  const isAccountRoute =
+    route === "account" ||
+    route.startsWith("account/");
 
   const page =
     route === "categories" ? (
@@ -1670,7 +2119,7 @@ function App() {
       <ProductsPage />
     ) : route === "why-aurora" ? (
       <WhyAuroraPage />
-    ) : route === "account" ? (
+    ) : isAccountRoute ? (
       <AccountPage />
     ) : route === "about" ? (
       <AboutPage />
@@ -1686,7 +2135,9 @@ function App() {
     <>
       {showSplash && (
         <AuroraSplash
-          onComplete={() => setShowSplash(false)}
+          onComplete={() =>
+            setShowSplash(false)
+          }
         />
       )}
 
@@ -1694,49 +2145,92 @@ function App() {
         <nav className="navbar">
           <button
             className="brand brand-button"
-            onClick={() => go("/home")}
+            onClick={() =>
+              go("/home")
+            }
           >
             <span className="brand-emblem">
               <AuroraMark />
             </span>
 
-            <span className="brand-name">AURORA</span>
+            <span className="brand-name">
+              AURORA
+            </span>
           </button>
 
           <div className="nav-links">
-            <button onClick={() => go("/home")}>Home</button>
-            <button onClick={() => go("/categories")}>
+            <button
+              onClick={() =>
+                go("/home")
+              }
+            >
+              Home
+            </button>
+
+            <button
+              onClick={() =>
+                go("/categories")
+              }
+            >
               Categories
             </button>
-            <button onClick={() => go("/products")}>
+
+            <button
+              onClick={() =>
+                go("/products")
+              }
+            >
               Products
             </button>
-            <button onClick={() => go("/why-aurora")}>
+
+            <button
+              onClick={() =>
+                go("/why-aurora")
+              }
+            >
               Why Aurora
             </button>
           </div>
 
           <div className="nav-actions">
-            <button className="icon-button">
+            <button
+              className="icon-button"
+              onClick={() =>
+                go("/products")
+              }
+            >
               <Search size={18} />
             </button>
 
-            <button className="icon-button">
+            <button
+              className="icon-button"
+              onClick={() =>
+                go("/account")
+              }
+            >
               <ShoppingBag size={18} />
             </button>
 
             <button
               className="nav-cta"
-              onClick={() => go("/products")}
+              onClick={() =>
+                go("/products")
+              }
             >
               Shop Now
             </button>
 
             <button
               className="mobile-menu-button"
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={() =>
+                setMenuOpen(!menuOpen)
+              }
             >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              {menuOpen ? (
+                <X size={20} />
+              ) : (
+                <Menu size={20} />
+              )}
             </button>
           </div>
         </nav>
@@ -1745,16 +2239,22 @@ function App() {
           <>
             <div
               className="mobile-menu-backdrop"
-              onClick={() => setMenuOpen(false)}
+              onClick={() =>
+                setMenuOpen(false)
+              }
             />
 
             <aside className="mobile-menu">
               <div className="mobile-menu-header">
-                <span>Explore Aurora</span>
+                <span>
+                  Explore Aurora
+                </span>
 
                 <button
                   className="mobile-menu-close"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
                 >
                   <X size={20} />
                 </button>
@@ -1763,23 +2263,50 @@ function App() {
               <div className="mobile-menu-links">
                 {[
                   ["Home", "/home"],
-                  ["Categories", "/categories"],
-                  ["Best Products & Sale", "/products"],
-                  ["Why Aurora", "/why-aurora"],
-                  ["My Account", "/account"],
-                  ["About Aurora", "/about"],
-                  ["Contact Us", "/contact"],
+                  [
+                    "Categories",
+                    "/categories",
+                  ],
+                  [
+                    "Best Products & Sale",
+                    "/products",
+                  ],
+                  [
+                    "Why Aurora",
+                    "/why-aurora",
+                  ],
+                  [
+                    "My Account",
+                    "/account",
+                  ],
+                  [
+                    "About Aurora",
+                    "/about",
+                  ],
+                  [
+                    "Contact Us",
+                    "/contact",
+                  ],
                   ["FAQ", "/faq"],
-                ].map(([label, path]) => (
-                  <button
-                    className="mobile-menu-link"
-                    key={path}
-                    onClick={() => go(path)}
-                  >
-                    <span>{label}</span>
-                    <ArrowRight size={17} />
-                  </button>
-                ))}
+                ].map(
+                  ([label, path]) => (
+                    <button
+                      className="mobile-menu-link"
+                      key={path}
+                      onClick={() =>
+                        go(path)
+                      }
+                    >
+                      <span>
+                        {label}
+                      </span>
+
+                      <ArrowRight
+                        size={17}
+                      />
+                    </button>
+                  )
+                )}
               </div>
             </aside>
           </>
@@ -1791,44 +2318,92 @@ function App() {
           <div className="footer-main">
             <button
               className="brand brand-button footer-brand"
-              onClick={() => go("/home")}
+              onClick={() =>
+                go("/home")
+              }
             >
               <span className="brand-emblem">
                 <AuroraMark />
               </span>
 
-              <span className="brand-name">AURORA</span>
+              <span className="brand-name">
+                AURORA
+              </span>
             </button>
 
             <p>
-              A modern destination for products worth discovering.
+              A modern destination for
+              products worth discovering.
             </p>
 
             <div className="footer-links">
-              <button onClick={() => go("/home")}>Home</button>
-              <button onClick={() => go("/categories")}>
+              <button
+                onClick={() =>
+                  go("/home")
+                }
+              >
+                Home
+              </button>
+
+              <button
+                onClick={() =>
+                  go("/categories")
+                }
+              >
                 Categories
               </button>
-              <button onClick={() => go("/products")}>
+
+              <button
+                onClick={() =>
+                  go("/products")
+                }
+              >
                 Products
               </button>
-              <button onClick={() => go("/why-aurora")}>
+
+              <button
+                onClick={() =>
+                  go("/why-aurora")
+                }
+              >
                 Why Aurora
               </button>
-              <button onClick={() => go("/about")}>About</button>
-              <button onClick={() => go("/contact")}>
+
+              <button
+                onClick={() =>
+                  go("/about")
+                }
+              >
+                About
+              </button>
+
+              <button
+                onClick={() =>
+                  go("/contact")
+                }
+              >
                 Contact
               </button>
-              <button onClick={() => go("/faq")}>FAQ</button>
+
+              <button
+                onClick={() =>
+                  go("/faq")
+                }
+              >
+                FAQ
+              </button>
             </div>
           </div>
 
           <div className="footer-bottom">
             <span>
-              © {new Date().getFullYear()} Aurora. All rights reserved.
+              © {new Date().getFullYear()} Aurora.
+              All rights reserved.
             </span>
 
-            <span>Discover. Choose. Enjoy.</span>
+            <span>
+              Discover. Choose. Enjoy.
+            </span>
           </div>
         </footer>
       </div>
