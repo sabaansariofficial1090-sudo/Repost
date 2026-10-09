@@ -848,8 +848,19 @@ function AccountPage() {
               "./lib/appwrite"
             );
 
-          const currentUser =
-            await account.get();
+                    const currentUser =
+           await account.get();
+
+          if (!currentUser.emailVerification) {
+            setUser(null);
+            setVerificationEmail(currentUser.email);
+            setMode("verify");
+            setSuccess(false);
+            setMessage(
+              "Your email address is not verified yet. Verify it before using your Aurora account."
+            );
+            return;
+          }
 
           setUser({
             $id: currentUser.$id,
@@ -1275,7 +1286,7 @@ function AccountPage() {
 
             <div className="account-actions">
               <button
-                className="secondary-button"
+                className="secondary-light-button"
                 type="button"
                 onClick={handleLogout}
                 disabled={submitting}
@@ -1315,9 +1326,8 @@ function AccountPage() {
             </h2>
 
             <p>
-              We sent a verification
-              link to:
-            </p>
+  Verify this email address before using your account:
+</p>
 
             <strong>
               {verificationEmail ||
