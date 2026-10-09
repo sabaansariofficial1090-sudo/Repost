@@ -663,16 +663,42 @@ function AccountPage() {
   const [recoverySecret, setRecoverySecret] =
     useState("");
 
+  /*
+    FIX:
+    Appwrite can return verification/recovery
+    parameters in either the normal URL query
+    or inside the hash query.
+
+    We now read BOTH.
+  */
   const getHashData = () => {
     const rawHash =
       window.location.hash.replace(/^#/, "");
 
-    const [path, queryString = ""] =
+    const [path, hashQuery = ""] =
       rawHash.split("?");
+
+    const searchParams =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const hashParams =
+      new URLSearchParams(hashQuery);
+
+    const params = new URLSearchParams();
+
+    searchParams.forEach((value, key) => {
+      params.set(key, value);
+    });
+
+    hashParams.forEach((value, key) => {
+      params.set(key, value);
+    });
 
     return {
       path,
-      params: new URLSearchParams(queryString),
+      params,
     };
   };
 
