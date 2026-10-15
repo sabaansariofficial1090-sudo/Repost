@@ -2322,3 +2322,59 @@ a {
     font-size: 11px;
   }
 }
+/* Google Sign-In button */
+.google-signin-button {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid rgba(90, 65, 25, 0.18);
+  border-radius: 14px;
+  background: #fff;
+  color: #29251e;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.google-signin-button:hover {
+  border-color: rgba(168, 121, 43, 0.45);
+  background: #fffdf8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(90, 65, 25, 0.08);
+}
+
+.google-signin-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 23px 0 0;
+  color: #938a7b;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(90, 65, 25, 0.12);
+}
