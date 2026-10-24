@@ -15,7 +15,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import StorePage from "./StorePage";
 const categories = [
   {
     name: "Trending",
@@ -2205,10 +2205,12 @@ function App() {
   const page =
     route === "categories" ? (
       <CategoriesPage go={go} />
-    ) : route === "products" ? (
-      <ProductsPage />
-    ) : route === "why-aurora" ? (
-      <WhyAuroraPage />
+   ) : route === "products" || route === "cart" ? (
+  <StorePage
+    go={go}
+    initialView={route === "cart" ? "cart" : "products"}
+  />
+) : route === "why-aurora" ? (
     ) : isAccountRoute ? (
       <AccountPage />
     ) : route === "about" ? (
@@ -2295,8 +2297,8 @@ function App() {
             <button
               className="icon-button"
               onClick={() =>
-                go("/account")
-              }
+  go("/cart")
+            }
             >
               <ShoppingBag size={18} />
             </button>
