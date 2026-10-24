@@ -2211,8 +2211,9 @@ function App() {
     initialView={route === "cart" ? "cart" : "products"}
   />
 ) : route === "why-aurora" ? (
-    ) : isAccountRoute ? (
-      <AccountPage />
+  <WhyAuroraPage />
+) : isAccountRoute ? (
+  <AccountPage />
     ) : route === "about" ? (
       <AboutPage />
     ) : route === "contact" ? (
